@@ -1,0 +1,789 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/*
+ * Fonts are served from public/fonts instead of Google Fonts so the installed
+ * app keeps its typography without internet.
+ */
+@font-face {
+  font-family: "Fredoka";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/fredoka-500-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Fredoka";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/fredoka-600-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Fredoka";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/fredoka-700-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/nunito-400-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/nunito-600-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/nunito-700-latin.woff2") format("woff2");
+}
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-primary-deep: var(--primary-deep);
+  --color-gold-deep: var(--gold-deep);
+  --color-overlay: var(--overlay);
+  --font-display: "Fredoka", ui-rounded, sans-serif;
+  --font-sans: "Nunito", ui-rounded, sans-serif;
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --palette-burgundy: oklch(0.348839 0.104595 5.784285);
+  --palette-burgundy-secondary: oklch(0.409633 0.115071 7.348631);
+  --palette-cream: oklch(0.959556 0.021212 85.943489);
+  --palette-cream-card: oklch(0.983503 0.017058 84.586576);
+  --palette-gold: oklch(0.828465 0.138401 83.220993);
+  --palette-black: oklch(0.13 0 0);
+  --palette-black-card: oklch(0.2 0 0);
+  --palette-yellow: oklch(0.87 0.17 94);
+  /* Christmas palette: #A83D43, #315B43 and #F5EBD8. */
+  --palette-christmas-red: oklch(0.511348607 0.140751323 20.340744981);
+  --palette-christmas-green: oklch(0.432974616 0.062237560 157.418461999);
+  --palette-christmas-cream: oklch(0.942876174 0.027386133 83.536751998);
+  --overlay: oklch(0.25 0.08 5 / 75%);
+  --radius: 1.25rem;
+  --background: var(--palette-cream);
+  --foreground: var(--palette-burgundy);
+  --card: var(--palette-cream-card);
+  --card-foreground: var(--palette-burgundy);
+  --popover: var(--palette-cream-card);
+  --popover-foreground: var(--palette-burgundy);
+  --primary: var(--palette-burgundy);
+  --primary-deep: oklch(0.25 0.08 5);
+  --primary-foreground: var(--palette-cream-card);
+  --secondary: var(--palette-burgundy-secondary);
+  --secondary-foreground: var(--palette-cream-card);
+  --success: oklch(0.62 0.13 150);
+  --success-deep: oklch(0.48 0.11 150);
+  --success-foreground: oklch(0.985 0.02 88);
+  --destructive-deep: oklch(0.45 0.2 27);
+  --gold: var(--palette-gold);
+  --gold-deep: oklch(0.68 0.13 70);
+  --gold-foreground: var(--palette-burgundy);
+  --muted: oklch(0.93 0.025 82);
+  --muted-foreground: oklch(0.5 0.06 10);
+  --accent: oklch(0.93 0.04 82);
+  --accent-foreground: oklch(0.34 0.1 5);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0.02 88);
+  --border: oklch(0.88 0.03 75);
+  --input: oklch(0.88 0.03 75);
+  --ring: oklch(0.83 0.13 80);
+  --navigation: var(--card);
+  --navigation-foreground: var(--muted-foreground);
+  --navigation-active: var(--primary);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-primary: oklch(0.208 0.042 265.755);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+:root[data-lumen-theme="burgundy"] {
+  --background: var(--palette-burgundy);
+  --foreground: var(--palette-cream);
+  --card: var(--palette-burgundy-secondary);
+  --card-foreground: var(--palette-cream-card);
+  --popover: var(--palette-burgundy-secondary);
+  --popover-foreground: var(--palette-cream-card);
+  --primary: var(--palette-cream);
+  --primary-foreground: var(--palette-burgundy);
+  --primary-deep: var(--palette-burgundy-secondary);
+  --secondary: var(--palette-cream-card);
+  --secondary-foreground: var(--palette-burgundy-secondary);
+  --muted: var(--palette-burgundy-secondary);
+  --muted-foreground: var(--palette-cream);
+  --accent: var(--palette-burgundy-secondary);
+  --accent-foreground: var(--palette-cream-card);
+  --border: color-mix(in oklch, var(--palette-cream) 25%, var(--palette-burgundy-secondary));
+  --input: var(--border);
+  --ring: var(--palette-gold);
+  color-scheme: dark;
+}
+
+:root[data-lumen-theme="black-yellow"] {
+  --background: var(--palette-black);
+  --foreground: oklch(0.96 0.01 94);
+  --card: var(--palette-black-card);
+  --card-foreground: var(--foreground);
+  --popover: var(--palette-black-card);
+  --popover-foreground: var(--foreground);
+  --primary: var(--palette-yellow);
+  --primary-foreground: var(--palette-black);
+  --primary-deep: oklch(0.64 0.13 90);
+  --secondary: oklch(0.93 0.1 94);
+  --secondary-foreground: var(--palette-black);
+  --gold: var(--palette-yellow);
+  --gold-deep: var(--primary-deep);
+  --gold-foreground: var(--palette-black);
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.78 0.01 94);
+  --accent: oklch(0.3 0.035 94);
+  --accent-foreground: var(--palette-yellow);
+  --border: oklch(0.37 0.005 94);
+  --input: var(--border);
+  --ring: var(--palette-yellow);
+  --overlay: oklch(0 0 0 / 80%);
+  --success: oklch(0.76 0.14 150);
+  --success-deep: oklch(0.52 0.1 150);
+  --success-foreground: var(--palette-black);
+  --destructive: oklch(0.74 0.16 27);
+  --destructive-deep: oklch(0.5 0.16 27);
+  --destructive-foreground: var(--palette-black);
+  --sidebar: var(--palette-black-card);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--palette-yellow);
+  --sidebar-primary-foreground: var(--palette-black);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--palette-yellow);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--palette-yellow);
+  color-scheme: dark;
+}
+
+:root[data-lumen-theme="christmas"] {
+  --background: var(--palette-christmas-cream);
+  --foreground: var(--palette-christmas-green);
+  --card: color-mix(in oklch, var(--palette-christmas-cream) 96%, white);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --primary: var(--palette-christmas-red);
+  --primary-foreground: var(--palette-christmas-cream);
+  --primary-deep: color-mix(in oklch, var(--palette-christmas-red) 75%, black);
+  --secondary: var(--palette-christmas-green);
+  --secondary-foreground: var(--palette-christmas-cream);
+  --gold: var(--palette-christmas-green);
+  --gold-foreground: var(--palette-christmas-cream);
+  --gold-deep: color-mix(in oklch, var(--palette-christmas-green) 75%, black);
+  --muted: color-mix(in oklch, var(--palette-christmas-cream) 85%, var(--palette-christmas-green));
+  --muted-foreground: var(--palette-christmas-green);
+  --accent: color-mix(in oklch, var(--palette-christmas-cream) 92%, var(--palette-christmas-red));
+  --accent-foreground: var(--palette-christmas-red);
+  --border: color-mix(in oklch, var(--palette-christmas-cream) 70%, var(--palette-christmas-green));
+  --input: var(--border);
+  --ring: var(--palette-christmas-red);
+  --success: var(--palette-christmas-green);
+  --success-foreground: var(--palette-christmas-cream);
+  --success-deep: var(--gold-deep);
+  --destructive: var(--palette-christmas-red);
+  --destructive-foreground: var(--palette-christmas-cream);
+  --destructive-deep: var(--primary-deep);
+  --overlay: color-mix(in oklch, var(--palette-christmas-green) 75%, transparent);
+  --navigation: var(--palette-christmas-green);
+  --navigation-foreground: var(--palette-christmas-cream);
+  --navigation-active: var(--palette-christmas-cream);
+  color-scheme: light;
+}
+
+:root[data-lumen-theme="christmas-green"] {
+  --background: var(--palette-christmas-green);
+  --foreground: var(--palette-christmas-cream);
+  --card: color-mix(in oklch, var(--palette-christmas-green) 80%, black);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --primary: var(--palette-christmas-cream);
+  --primary-foreground: var(--palette-christmas-green);
+  --primary-deep: color-mix(in oklch, var(--palette-christmas-cream) 72%, var(--palette-christmas-green));
+  --secondary: color-mix(in oklch, var(--palette-christmas-cream) 82%, var(--palette-christmas-green));
+  --secondary-foreground: var(--palette-christmas-green);
+  --gold: var(--palette-christmas-red);
+  --gold-foreground: var(--palette-christmas-cream);
+  --gold-deep: color-mix(in oklch, var(--palette-christmas-red) 72%, black);
+  --muted: color-mix(in oklch, var(--palette-christmas-green) 76%, var(--palette-christmas-cream));
+  --muted-foreground: color-mix(in oklch, var(--palette-christmas-cream) 84%, var(--palette-christmas-green));
+  --accent: color-mix(in oklch, var(--palette-christmas-red) 78%, var(--palette-christmas-green));
+  --accent-foreground: var(--palette-christmas-cream);
+  --border: color-mix(in oklch, var(--palette-christmas-cream) 28%, var(--palette-christmas-green));
+  --input: var(--border);
+  --ring: var(--palette-christmas-cream);
+  --success: color-mix(in oklch, var(--palette-christmas-cream) 65%, var(--palette-christmas-green));
+  --success-foreground: color-mix(in oklch, var(--palette-christmas-green) 78%, black);
+  --success-deep: var(--palette-christmas-green);
+  --destructive: color-mix(in oklch, var(--palette-christmas-red) 55%, var(--palette-christmas-cream));
+  --destructive-foreground: color-mix(in oklch, var(--palette-christmas-red) 45%, black);
+  --destructive-deep: var(--palette-christmas-red);
+  --overlay: color-mix(in oklch, color-mix(in oklch, var(--palette-christmas-green) 60%, black) 78%, transparent);
+  --navigation: var(--card);
+  --navigation-foreground: color-mix(in oklch, var(--palette-christmas-cream) 78%, var(--palette-christmas-green));
+  --navigation-active: var(--palette-christmas-cream);
+  color-scheme: dark;
+}
+
+.lumen-navigation { background: var(--navigation); }
+.lumen-navigation a { color: var(--navigation-foreground); }
+.lumen-navigation a[data-status="active"] { color: var(--navigation-active); }
+:root[data-lumen-theme="christmas"] .lumen-navigation a[data-status="active"] {
+  background: color-mix(in oklch, var(--palette-christmas-cream) 12%, var(--palette-christmas-green));
+  box-shadow: inset 0 3px 0 var(--palette-christmas-cream);
+}
+:root[data-lumen-theme="christmas-green"] .lumen-navigation a[data-status="active"] {
+  background: color-mix(in oklch, var(--palette-christmas-cream) 10%, var(--navigation));
+  box-shadow: inset 0 3px 0 var(--palette-christmas-red);
+}
+:root[data-lumen-theme="christmas"] .lesson-prompt {
+  background: var(--palette-christmas-green);
+  color: var(--palette-christmas-cream);
+}
+:root[data-lumen-theme="christmas"] .lesson-prompt .btn-3d {
+  background: var(--palette-christmas-red);
+  --btn-depth: var(--primary-deep);
+}
+:root[data-lumen-theme="christmas"] .rosary-prompt .rosary-label { color: var(--palette-christmas-cream); }
+:root[data-lumen-theme="christmas-green"] .rosary-prompt .rosary-label { color: var(--palette-christmas-red); }
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
+
+@layer base {
+  body { font-family: var(--font-sans); -webkit-tap-highlight-color: transparent; }
+  h1, h2, h3 { font-family: var(--font-display); }
+}
+
+/* The shared sound bar reserves space instead of overlapping page controls. */
+.audio-page .min-h-dvh { min-height: calc(100dvh - 4rem); }
+
+/* Appearance previews always show the actual palette, independently of the selected theme. */
+.theme-preview {
+  display: flex;
+  width: 100%;
+  height: 5rem;
+  flex-direction: column;
+  gap: .45rem;
+  border-radius: .65rem;
+  padding: .65rem;
+  background: var(--preview-background);
+  border: 1px solid var(--border);
+}
+.theme-preview-cream {
+  --preview-background: var(--palette-cream);
+  --preview-card: var(--palette-cream-card);
+  --preview-ink: var(--palette-burgundy);
+}
+.theme-preview-burgundy {
+  --preview-background: var(--palette-burgundy);
+  --preview-card: var(--palette-burgundy-secondary);
+  --preview-ink: var(--palette-cream);
+}
+.theme-preview-black-yellow {
+  --preview-background: var(--palette-black);
+  --preview-card: var(--palette-black-card);
+  --preview-ink: var(--palette-yellow);
+}
+.theme-preview-christmas {
+  --preview-background: var(--palette-christmas-cream);
+  --preview-card: var(--palette-christmas-green);
+  --preview-ink: var(--palette-christmas-red);
+}
+.theme-preview-christmas .theme-preview-card > span { background: var(--palette-christmas-cream); }
+.theme-preview-christmas .theme-preview-button { background: var(--palette-christmas-red); }
+.theme-preview-christmas-green {
+  --preview-background: var(--palette-christmas-green);
+  --preview-card: color-mix(in oklch, var(--palette-christmas-green) 80%, black);
+  --preview-ink: var(--palette-christmas-cream);
+}
+.theme-preview-christmas-green .theme-preview-card > span { background: var(--palette-christmas-cream); }
+.theme-preview-christmas-green .theme-preview-button { background: var(--palette-christmas-red); }
+.theme-preview-heading { width: 40%; height: .3rem; border-radius: .2rem; background: var(--preview-ink); }
+.theme-preview-card { display: grid; gap: .25rem; padding: .45rem; border-radius: .3rem; background: var(--preview-card); }
+.theme-preview-card > span { width: 85%; height: .2rem; border-radius: .2rem; background: var(--preview-ink); opacity: .65; }
+.theme-preview-card > span + span { width: 60%; }
+.theme-preview-button { width: 45%; height: .55rem; border-radius: .2rem; background: var(--palette-gold); }
+.theme-preview-black-yellow .theme-preview-button { background: var(--palette-yellow); }
+.settings-dialog button[role="switch"] { width: 2.75rem; height: 1.5rem; }
+.settings-dialog button[role="switch"] > span { width: 1.1rem; height: 1.1rem; }
+.settings-dialog button[role="switch"] > span[data-state="checked"] { transform: translateX(1.25rem); }
+
+:root[data-reduce-motion="true"] *,
+:root[data-reduce-motion="true"] *::before,
+:root[data-reduce-motion="true"] *::after {
+  animation-duration: .01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .01ms !important;
+  scroll-behavior: auto !important;
+}
+
+@utility btn-3d {
+  border-radius: 1rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  box-shadow: 0 5px 0 var(--btn-depth);
+  &:active { transform: translateY(5px); box-shadow: 0 0 0 var(--btn-depth); }
+}
+
+@keyframes rise-in { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: none } }
+@utility animate-rise { animation: rise-in 600ms cubic-bezier(.2,.8,.2,1) both; }
+
+/* The official portrait is never recolored: accessories are separate layers. */
+:root {
+  --mascot-pilgrim-fabric: var(--palette-burgundy);
+  --mascot-pilgrim-trim: var(--palette-gold);
+  --mascot-christmas-fabric: var(--palette-christmas-red);
+  --mascot-christmas-trim: var(--palette-christmas-cream);
+  --mascot-shadow: 0 3px 0 var(--border);
+}
+.mascot-portrait { position: relative; display: inline-block; aspect-ratio: 720 / 850; flex-shrink: 0; }
+.mascot-portrait > img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.mascot-outfit { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.mascot-outfit-pilgrim { --mascot-fabric: var(--mascot-pilgrim-fabric); --mascot-trim: var(--mascot-pilgrim-trim); }
+.mascot-outfit-christmas { --mascot-fabric: var(--mascot-christmas-fabric); --mascot-trim: var(--mascot-christmas-trim); }
+.mascot-fabric { fill: var(--mascot-fabric); }
+.mascot-trim { fill: var(--mascot-trim); }
+.global-mascot { position: fixed; z-index: 30; width: 56px; height: 68px; pointer-events: none; }
+.global-mascot-large { width: 104px; height: 124px; }
+.global-mascot-compact { width: 44px; height: 52px; }
+.global-mascot-hidden { visibility: hidden; pointer-events: none; }
+.global-mascot .mascot-trigger { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; box-shadow: none; border-radius: .5rem; pointer-events: auto; }
+.global-mascot .mascot-trigger:active { transform: translateY(2px); }
+.mascot-motion { display: block; width: 100%; height: 100%; transform-origin: 50% 85%; }
+.mascot-motion .mascot-portrait { width: 100%; height: 100%; }
+.mascot-bubble { position: absolute; right: 0; width: min(244px, calc(100vw - 24px)); padding: .65rem .75rem .8rem; border-radius: 1rem; box-shadow: var(--mascot-shadow); pointer-events: auto; }
+.mascot-bubble[data-position="above"] { bottom: calc(100% + 12px); }
+.mascot-bubble[data-position="below"] { top: calc(100% + 12px); }
+.mascot-bubble[data-position="hidden"] { visibility: hidden; pointer-events: none; }
+@keyframes mascot-breathe { 0%, 70%, 100% { transform: none; } 80% { transform: scale(1.02, 1.025); } }
+@keyframes mascot-celebrate { 0%, 100% { transform: none; } 20% { transform: translateY(-6px) rotate(-5deg); } 45% { transform: translateY(0) rotate(4deg); } 70% { transform: translateY(-3px) rotate(-2deg); } }
+@keyframes mascot-encourage { 0%, 100% { transform: none; } 45% { transform: rotate(-4deg); } 70% { transform: rotate(2deg); } }
+.mascot-breathe { animation: mascot-breathe 8s ease-in-out 2; }
+.mascot-celebrate { animation: mascot-celebrate 1.1s ease-in-out 1; }
+.mascot-encourage { animation: mascot-encourage .7s ease-in-out 1; }
+
+@keyframes christmas-twinkle {
+  0%, 100% { opacity: 0.72; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+@keyframes christmas-scene-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.99); }
+  to { opacity: 1; transform: none; }
+}
+.christmas-twinkle { animation: christmas-twinkle 3.6s ease-in-out infinite; }
+.christmas-twinkle-delay { animation: christmas-twinkle 4.2s ease-in-out 1.4s infinite; }
+.christmas-scene-enter { animation: christmas-scene-in 380ms cubic-bezier(.16, 1, .3, 1) both; }
+
+/* Contextual and touch animations for stationary Agnus components (compositor-only transforms) */
+@keyframes agnus-resting {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(1.015); }
+}
+@keyframes agnus-observing {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-2.5deg); }
+  70% { transform: rotate(2.5deg); }
+}
+@keyframes agnus-waving {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  20% { transform: rotate(-6deg) translateY(-3px); }
+  45% { transform: rotate(6deg) translateY(-4px); }
+  70% { transform: rotate(-4deg) translateY(-2px); }
+}
+@keyframes agnus-reading {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(2px) rotate(-1.5deg); }
+}
+@keyframes agnus-celebrating {
+  0%, 100% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-8px) rotate(-4deg) scale(1.03); }
+  55% { transform: translateY(0) rotate(4deg) scale(1.02); }
+  80% { transform: translateY(-4px) rotate(-2deg); }
+}
+@keyframes agnus-contemplative {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.012); opacity: 0.96; }
+}
+@keyframes agnus-sleeping {
+  0%, 100% { transform: translateY(2px) scale(1, 0.985); }
+  50% { transform: translateY(4px) scale(1.02, 0.965); }
+}
+@keyframes agnus-blink-ears {
+  0%, 100% { transform: scale(1); }
+  35% { transform: scale(1.04, 0.95); }
+  65% { transform: scale(0.98, 1.03); }
+}
+@keyframes agnus-hop {
+  0%, 100% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(3px) scale(1.04, 0.94); }
+  55% { transform: translateY(-10px) scale(0.98, 1.04); }
+  80% { transform: translateY(1px) scale(1.02, 0.98); }
+}
+@keyframes agnus-surprise {
+  0%, 100% { transform: scale(1); }
+  30% { transform: translateY(-5px) scale(1.08); }
+  65% { transform: translateY(0) scale(0.98); }
+}
+@keyframes agnus-sit {
+  0%, 100% { transform: translateY(0) scale(1); }
+  45% { transform: translateY(5px) scale(1.03, 0.95); }
+}
+@keyframes agnus-twirl {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-8deg) translateY(-4px) scale(1.04); }
+  60% { transform: rotate(8deg) translateY(-6px) scale(1.04); }
+}
+@keyframes agnus-happy-dance {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  18% { transform: translateY(-7px) rotate(-6deg) scale(1.04); }
+  36% { transform: translateY(1px) rotate(5deg) scale(1.02, 0.96); }
+  56% { transform: translateY(-8px) rotate(6deg) scale(1.05); }
+  78% { transform: translateY(0) rotate(-3deg) scale(1.01); }
+}
+@keyframes agnus-eating {
+  0%, 100% { transform: translateY(0) scale(1); }
+  20% { transform: translateY(3px) scale(1.05, 0.94); }
+  35% { transform: translateY(-4px) scale(0.98, 1.03); }
+  50% { transform: translateY(3px) scale(1.05, 0.94); }
+  68% { transform: translateY(-4px) scale(0.98, 1.03); }
+  85% { transform: translateY(2px) scale(1.03, 0.97); }
+}
+@keyframes agnus-playing {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  20% { transform: translate(-8px, -10px) rotate(-7deg) scale(1.05); }
+  45% { transform: translate(0, 2px) rotate(0deg) scale(1.04, 0.94); }
+  68% { transform: translate(8px, -11px) rotate(7deg) scale(1.05); }
+  88% { transform: translate(0, 1px) rotate(0deg) scale(1.02, 0.97); }
+}
+@keyframes agnus-praying {
+  0%, 100% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(3px) rotate(-1.5deg) scale(1.02, 0.98); }
+  75% { transform: translateY(-2px) scale(1.025); }
+}
+@keyframes agnus-bathing {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  15% { transform: rotate(-7deg) translateX(-3px) scale(1.02); }
+  30% { transform: rotate(7deg) translateX(3px) scale(1.02); }
+  45% { transform: rotate(-6deg) translateX(-2px) scale(1.03); }
+  60% { transform: rotate(6deg) translateX(2px) scale(1.03); }
+  78% { transform: translateY(-5px) scale(1.04); }
+}
+@keyframes agnus-float-zzz {
+  0%, 100% { opacity: 0.45; transform: translateY(0) scale(0.95); }
+  50% { opacity: 1; transform: translateY(-5px) scale(1.05); }
+}
+@keyframes agnus-particle-pop {
+  0% { opacity: 0; transform: translateY(8px) scale(0.6); }
+  20% { opacity: 1; transform: translateY(-4px) scale(1.15); }
+  100% { opacity: 0; transform: translateY(-30px) scale(0.9); }
+}
+
+/* Eye pupil glances & natural eyelid blinks */
+@keyframes agnus-pupils-glance {
+  0%, 18%, 100% { transform: translate(0, 0); }
+  26%, 38% { transform: translate(-8px, -2px); }
+  46%, 56% { transform: translate(0, 0); }
+  66%, 78% { transform: translate(8px, -2px); }
+  86%, 92% { transform: translate(3px, -6px); }
+}
+@keyframes agnus-pupils-scan {
+  0%, 100% { transform: translate(-10px, 0); }
+  50% { transform: translate(10px, -4px); }
+}
+@keyframes agnus-pupils-read {
+  0%, 100% { transform: translate(-6px, 12px); }
+  50% { transform: translate(6px, 13px); }
+}
+@keyframes agnus-pupils-joy {
+  0%, 100% { transform: translate(0, -3px) scale(1.04); }
+  50% { transform: translate(0, 2px) scale(1.08); }
+}
+@keyframes agnus-eyelid-blink {
+  0%, 91%, 100% { opacity: 0; }
+  94%, 97% { opacity: 1; }
+}
+@keyframes agnus-eyelid-double-blink {
+  0%, 15%, 45%, 100% { opacity: 0; }
+  22%, 34%, 58%, 70% { opacity: 1; }
+}
+
+/* Mouth (boquinha) talking & chewing */
+@keyframes agnus-mouth-talk {
+  0%, 100% { transform: scaleY(0.55); transform-origin: 384px 366px; }
+  35% { transform: scaleY(1.08); transform-origin: 384px 366px; }
+  65% { transform: scaleY(0.75); transform-origin: 384px 366px; }
+}
+@keyframes agnus-mouth-chew {
+  0%, 100% { transform: scale(1.05, 0.35); transform-origin: 384px 373px; }
+  50% { transform: scale(0.95, 1.15); transform-origin: 384px 373px; }
+}
+
+/* Articulated Arms (bracinhos) & Legs (perninhas) */
+@keyframes agnus-arm-idle-l {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(4deg) translateY(2px); }
+}
+@keyframes agnus-arm-idle-r {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-4deg) translateY(2px); }
+}
+@keyframes agnus-arm-wave-r {
+  0%, 100% { transform: rotate(0deg); }
+  22% { transform: rotate(-22deg) translateY(-10px); }
+  45% { transform: rotate(-8deg) translateY(-4px); }
+  68% { transform: rotate(-24deg) translateY(-12px); }
+}
+@keyframes agnus-arm-cheer-l {
+  0%, 100% { transform: rotate(0deg); }
+  35% { transform: rotate(18deg) translateY(-8px); }
+  70% { transform: rotate(-6deg); }
+}
+@keyframes agnus-arm-cheer-r {
+  0%, 100% { transform: rotate(0deg); }
+  35% { transform: rotate(-18deg) translateY(-8px); }
+  70% { transform: rotate(6deg); }
+}
+@keyframes agnus-arm-pray-l {
+  0%, 100% { transform: rotate(-9deg) translate(8px, -4px); }
+  50% { transform: rotate(-12deg) translate(10px, -6px); }
+}
+@keyframes agnus-arm-pray-r {
+  0%, 100% { transform: rotate(9deg) translate(-8px, -4px); }
+  50% { transform: rotate(12deg) translate(-10px, -6px); }
+}
+@keyframes agnus-leg-step-l {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  35% { transform: rotate(11deg) translateY(-10px); }
+  70% { transform: rotate(-4deg) translateY(2px); }
+}
+@keyframes agnus-leg-step-r {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  35% { transform: rotate(-4deg) translateY(2px); }
+  70% { transform: rotate(-11deg) translateY(-10px); }
+}
+@keyframes agnus-wing-flap-l {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(7deg) translateY(-4px); }
+}
+@keyframes agnus-wing-flap-r {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-7deg) translateY(-4px); }
+}
+
+/* Scenic Ambient Details */
+@keyframes agnus-scene-cloud-drift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(12px); }
+}
+@keyframes agnus-scene-twinkle-pulse {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+@keyframes agnus-scene-candle-flicker {
+  0%, 100% { transform: scale(1) translateY(0); opacity: 0.92; }
+  50% { transform: scale(1.06, 1.12) translateY(-1px); opacity: 1; }
+}
+@keyframes agnus-scene-bubbles-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.agnus-anim-resting { animation: agnus-resting 3.6s cubic-bezier(0.37, 0, 0.63, 1) infinite; }
+.agnus-anim-observing { animation: agnus-observing 4.8s cubic-bezier(0.37, 0, 0.63, 1) infinite; }
+.agnus-anim-welcoming,
+.agnus-anim-waving { animation: agnus-waving 1.1s cubic-bezier(0.22, 1, 0.36, 1) 2; }
+.agnus-anim-reading { animation: agnus-reading 3.4s cubic-bezier(0.37, 0, 0.63, 1) infinite; }
+.agnus-anim-celebrating { animation: agnus-celebrating 1.1s cubic-bezier(0.22, 1, 0.36, 1) 2; }
+.agnus-anim-contemplative { animation: agnus-contemplative 5.2s ease-in-out infinite; }
+.agnus-anim-sleeping { animation: agnus-sleeping 4.4s ease-in-out infinite; }
+.agnus-anim-blink-ears { animation: agnus-blink-ears 460ms ease-in-out 2; }
+.agnus-anim-hop { animation: agnus-hop 580ms cubic-bezier(.16, 1, .3, 1) 2; }
+.agnus-anim-surprise { animation: agnus-surprise 520ms cubic-bezier(.16, 1, .3, 1) 1; }
+.agnus-anim-sit { animation: agnus-sit 640ms ease-in-out 1; }
+.agnus-anim-twirl { animation: agnus-twirl 680ms ease-in-out 2; }
+.agnus-anim-happy-dance { animation: agnus-happy-dance 820ms cubic-bezier(0.22, 1, 0.36, 1) 2; }
+.agnus-anim-eating { animation: agnus-eating 780ms ease-in-out 2; }
+.agnus-anim-playing { animation: agnus-playing 920ms cubic-bezier(.16, 1, .3, 1) 2; }
+.agnus-anim-praying { animation: agnus-praying 1.4s ease-in-out 2; }
+.agnus-anim-bathing { animation: agnus-bathing 760ms ease-in-out 2; }
+.agnus-zzz { animation: agnus-float-zzz 2.6s ease-in-out infinite; }
+.agnus-particle { animation: agnus-particle-pop 1.35s cubic-bezier(.16, 1, .3, 1) both; }
+
+/* Eye, mouth & limb coordination */
+.agnus-pupils-open { animation: agnus-pupils-glance 6.8s ease-in-out infinite; }
+.agnus-pupils-observing { animation: agnus-pupils-scan 2.8s ease-in-out infinite; }
+.agnus-pupils-reading { animation: agnus-pupils-read 3.4s ease-in-out infinite; }
+.agnus-pupils-excited { animation: agnus-pupils-joy 620ms ease-in-out infinite; }
+.agnus-eyelid-cover { opacity: 0; animation: agnus-eyelid-blink 4.2s ease-in-out infinite; }
+.agnus-anim-blink-ears .agnus-eyelid-cover { animation: agnus-eyelid-double-blink 700ms ease-in-out 1; }
+.agnus-mouth-cheer { animation: agnus-mouth-talk 420ms ease-in-out infinite; }
+.agnus-mouth-chew { animation: agnus-mouth-chew 360ms ease-in-out infinite; }
+
+.agnus-part-arm-l { animation: agnus-arm-idle-l 3.6s ease-in-out infinite; }
+.agnus-part-arm-r { animation: agnus-arm-idle-r 3.6s ease-in-out infinite; }
+.agnus-part-wing-l { animation: agnus-wing-flap-l 2.6s ease-in-out infinite; }
+.agnus-part-wing-r { animation: agnus-wing-flap-r 2.6s ease-in-out infinite; }
+
+.agnus-anim-waving .agnus-part-arm-r,
+.agnus-anim-welcoming .agnus-part-arm-r { animation: agnus-arm-wave-r 760ms ease-in-out infinite; }
+.agnus-anim-happy-dance .agnus-part-arm-l,
+.agnus-anim-celebrating .agnus-part-arm-l,
+.agnus-anim-playing .agnus-part-arm-l,
+.agnus-anim-eating .agnus-part-arm-l,
+.agnus-anim-bathing .agnus-part-arm-l,
+.agnus-anim-hop .agnus-part-arm-l,
+.agnus-anim-surprise .agnus-part-arm-l { animation: agnus-arm-cheer-l 540ms ease-in-out infinite; }
+
+.agnus-anim-happy-dance .agnus-part-arm-r,
+.agnus-anim-celebrating .agnus-part-arm-r,
+.agnus-anim-playing .agnus-part-arm-r,
+.agnus-anim-eating .agnus-part-arm-r,
+.agnus-anim-bathing .agnus-part-arm-r,
+.agnus-anim-hop .agnus-part-arm-r,
+.agnus-anim-surprise .agnus-part-arm-r { animation: agnus-arm-cheer-r 540ms ease-in-out infinite; }
+
+.agnus-anim-praying .agnus-part-arm-l,
+.agnus-anim-contemplative .agnus-part-arm-l { animation: agnus-arm-pray-l 2.2s ease-in-out infinite; }
+.agnus-anim-praying .agnus-part-arm-r,
+.agnus-anim-contemplative .agnus-part-arm-r { animation: agnus-arm-pray-r 2.2s ease-in-out infinite; }
+
+.agnus-anim-happy-dance .agnus-part-leg-l,
+.agnus-anim-celebrating .agnus-part-leg-l,
+.agnus-anim-playing .agnus-part-leg-l,
+.agnus-anim-waving .agnus-part-leg-l,
+.agnus-anim-bathing .agnus-part-leg-l,
+.agnus-anim-hop .agnus-part-leg-l { animation: agnus-leg-step-l 520ms ease-in-out infinite; }
+
+.agnus-anim-happy-dance .agnus-part-leg-r,
+.agnus-anim-celebrating .agnus-part-leg-r,
+.agnus-anim-playing .agnus-part-leg-r,
+.agnus-anim-waving .agnus-part-leg-r,
+.agnus-anim-bathing .agnus-part-leg-r,
+.agnus-anim-hop .agnus-part-leg-r { animation: agnus-leg-step-r 520ms ease-in-out infinite; }
+
+.agnus-anim-sleeping .agnus-part-arm-l,
+.agnus-anim-sleeping .agnus-part-arm-r,
+.agnus-anim-sleeping .agnus-part-leg-l,
+.agnus-anim-sleeping .agnus-part-leg-r { animation: none; }
+
+.agnus-scene-cloud { animation: agnus-scene-cloud-drift 8s ease-in-out infinite; }
+.agnus-scene-twinkle { animation: agnus-scene-twinkle-pulse 2.8s ease-in-out infinite; }
+.agnus-scene-candle { animation: agnus-scene-candle-flicker 1.4s ease-in-out infinite; transform-origin: center bottom; }
+.agnus-scene-bubbles { animation: agnus-scene-bubbles-float 2.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-rise, .christmas-twinkle, .christmas-twinkle-delay, .christmas-scene-enter,
+  .agnus-anim-resting, .agnus-anim-observing, .agnus-anim-welcoming, .agnus-anim-waving,
+  .agnus-anim-reading, .agnus-anim-celebrating, .agnus-anim-contemplative, .agnus-anim-sleeping,
+  .agnus-anim-blink-ears, .agnus-anim-hop, .agnus-anim-surprise, .agnus-anim-sit,
+  .agnus-anim-twirl, .agnus-anim-happy-dance, .agnus-anim-eating, .agnus-anim-playing,
+  .agnus-anim-praying, .agnus-anim-bathing, .agnus-zzz, .agnus-particle,
+  .agnus-pupils-open, .agnus-pupils-observing, .agnus-pupils-reading, .agnus-pupils-excited,
+  .agnus-eyelid-cover, .agnus-mouth-cheer, .agnus-mouth-chew,
+  .agnus-part-arm-l, .agnus-part-arm-r, .agnus-part-leg-l, .agnus-part-leg-r,
+  .agnus-part-wing-l, .agnus-part-wing-r,
+  .agnus-scene-cloud, .agnus-scene-twinkle, .agnus-scene-candle, .agnus-scene-bubbles { animation: none; }
+  .btn-3d, .transition-\[width\] { transition: none; }
+}
+

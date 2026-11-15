@@ -1,0 +1,34 @@
+# Lumen roadmap
+- [x] Etapa 1: identidade visual + boas-vindas
+- [x] Etapa 2: cadastro em 6 passos (voltar sem perder respostas)
+- [x] Etapa 3: tela principal + navegação (Início, Trilha, Biblioteca, Perfil)
+- [x] Etapa 4: lições "Fundamentos da fé católica" com perguntas, correção e XP
+- [x] Novas unidades e lições fundamentadas na Bíblia e no Catecismo
+- [x] Variações oficiais do cordeirinho e reações cartoonescas de acerto, erro e conclusão
+- [x] Verificar lições, progresso e animações em celular e computador
+- [x] Corrigir erros pendentes e atualizar testes para as novas unidades
+- [x] Integrar Orações à navegação e criar biblioteca tradicional com leitura ajustável e favoritos
+- [x] Criar Terço guiado com mistérios do dia, configuração, sequência completa e progresso na sessão
+- [x] Organizar outras devoções sem oferecer conteúdos incompletos
+- [x] Verificar navegação, favoritos, sequência do terço, celulares e regressões do aprendizado
+- [x] Adicionar música calma e efeitos de seleção, acerto e erro com opção de silenciar
+- [x] Conferir sons, controles e regressões em celular e computador
+- [x] Adicionar 12 lições em quatro novas unidades, com fontes bíblicas e do Catecismo
+- [x] Conferir conteúdo, trilha, biblioteca, conclusão com XP e preservação do progresso
+- [x] Calendário litúrgico com santos e celebrações de cada dia
+- [x] Museu Católico: reunir fotografias reais com créditos e explicações históricas com fontes
+- [x] Museu Católico: integrar à Biblioteca, criar coleção com busca e categorias e páginas de cada imagem
+- [x] Museu Católico: conferir navegação, imagens e leitura em celular e computador
+- [x] Configurações no canto superior direito: predominância creme/grená, som, leitura e animações
+- [x] Conferir preferências salvas, navegação e legibilidade no celular e computador
+- [x] Adicionar aparência preta e amarela, preservando creme, grená e a interface
+- [x] Remover o cordeirinho de todas as telas e imagens de instalação
+- [x] Conferir a nova aparência, persistência, lições e telas em celular e computador
+- [x] Ampliar a Conta com apelido, símbolo e preferências pessoais editáveis
+- [x] Mostrar estatísticas da trilha e leitura da Bíblia, com marcação de capítulos lidos
+- [x] Conferir personalização, porcentagens, persistência e navegação em celular e computador
+- [x] Adicionar Tema Natalino com a paleta solicitada e símbolos natalinos, preservando outras aparências
+- [x] Conferir escolha salva, símbolos, legibilidade e navegação em celular e computador
+- [ ] Integrar mascote oficial global com balão contextual e aparições especiais não bloqueantes
+- [ ] Personalizar roupas na Conta e preservar a escolha durante a navegação
+- [ ] Conferir mascote, navegação, lições e ausência de sobreposições em celular e computador

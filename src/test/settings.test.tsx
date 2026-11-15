@@ -1,0 +1,205 @@
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { SettingsProvider, useSettings } from "@/components/SettingsProvider";
+import {
+  DEFAULT_APP_SETTINGS,
+  SETTINGS_STORAGE_KEY,
+  isChristmasAppearance,
+  parseAppSettings,
+} from "@/lib/settings";
+import { LumenButton } from "@/components/ui/lumen-button";
+
+function Preferences() {
+  const { settings, updateSettings } = useSettings();
+  return (
+    <>
+      <output data-testid="settings">{JSON.stringify(settings)}</output>
+      <LumenButton onClick={() => updateSettings({ appearance: "burgundy" })}>Grená</LumenButton>
+      <LumenButton onClick={() => updateSettings({ appearance: "cream" })}>Creme</LumenButton>
+      <LumenButton onClick={() => updateSettings({ appearance: "black-yellow" })}>
+        Preto e amarelo
+      </LumenButton>
+      <LumenButton onClick={() => updateSettings({ appearance: "christmas" })}>
+        Tema Natalino
+      </LumenButton>
+      <LumenButton onClick={() => updateSettings({ appearance: "christmas-green" })}>
+        Natal Verde
+      </LumenButton>
+      <LumenButton onClick={() => updateSettings({ textSize: 3 })}>Letra</LumenButton>
+      <LumenButton onClick={() => updateSettings({ reduceMotion: true })}>Movimento</LumenButton>
+    </>
+  );
+}
+const App = () => (
+  <SettingsProvider>
+    <Preferences />
+  </SettingsProvider>
+);
+
+describe("preferências do aparelho", () => {
+  beforeEach(() => localStorage.clear());
+  afterEach(() => {
+    cleanup();
+    delete document.documentElement.dataset["lumenTheme"];
+    delete document.documentElement.dataset["reduceMotion"];
+  });
+
+  it("começa com o Tema Natalino por padrão para novos usuários", () => {
+    expect(parseAppSettings(null).appearance).toBe("christmas");
+    render(<App />);
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("christmas");
+  });
+
+  it("preserva a preferência salva de quem já escolheu Creme, Grená ou Preto e amarelo", () => {
+    localStorage.setItem(
+      SETTINGS_STORAGE_KEY,
+      JSON.stringify({ appearance: "cream", textSize: 1, reduceMotion: false }),
+    );
+    const view = render(<App />);
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("cream");
+    view.unmount();
+
+    localStorage.setItem(
+      SETTINGS_STORAGE_KEY,
+      JSON.stringify({ appearance: "burgundy", textSize: 0, reduceMotion: false }),
+    );
+    render(<App />);
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("burgundy");
+  });
+
+  it("alterna entre creme e grená e lembra a escolha ao reabrir", () => {
+    const view = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "Grená" }));
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("burgundy");
+    expect(parseAppSettings(localStorage.getItem(SETTINGS_STORAGE_KEY)).appearance).toBe(
+      "burgundy",
+    );
+    view.unmount();
+    render(<App />);
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("burgundy");
+    fireEvent.click(screen.getByRole("button", { name: "Creme" }));
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("cream");
+  });
+
+  it("alterna para preto e amarelo e lembra a escolha ao reabrir", () => {
+    const view = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "Preto e amarelo" }));
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("black-yellow");
+    expect(parseAppSettings(localStorage.getItem(SETTINGS_STORAGE_KEY)).appearance).toBe(
+      "black-yellow",
+    );
+    view.unmount();
+    render(<App />);
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("black-yellow");
+    fireEvent.click(screen.getByRole("button", { name: "Grená" }));
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("burgundy");
+    fireEvent.click(screen.getByRole("button", { name: "Creme" }));
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("cream");
+  });
+
+  it("não aceita aparências desconhecidas ou preferências inválidas", () => {
+    expect(
+      parseAppSettings('{"appearance":"blue","textSize":"large","reduceMotion":"true"}'),
+    ).toEqual(DEFAULT_APP_SETTINGS);
+    expect(parseAppSettings("corrompido")).toEqual(DEFAULT_APP_SETTINGS);
+    expect(parseAppSettings("[]")).toEqual(DEFAULT_APP_SETTINGS);
+  });
+
+  it("permite escolher o Tema Natalino, lembra a escolha e retorna às aparências anteriores", () => {
+    const view = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "Tema Natalino" }));
+    expect(parseAppSettings(localStorage.getItem(SETTINGS_STORAGE_KEY)).appearance).toBe(
+      "christmas",
+    );
+    view.unmount();
+    render(<App />);
+    expect(JSON.parse(screen.getByTestId("settings").textContent ?? "{}").appearance).toBe(
+      "christmas",
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Creme" }));
+    expect(parseAppSettings(localStorage.getItem(SETTINGS_STORAGE_KEY)).appearance).toBe("cream");
+    fireEvent.click(screen.getByRole("button", { name: "Grená" }));
+    expect(parseAppSettings(localStorage.getItem(SETTINGS_STORAGE_KEY)).appearance).toBe(
+      "burgundy",
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Preto e amarelo" }));
+    expect(parseAppSettings(localStorage.getItem(SETTINGS_STORAGE_KEY)).appearance).toBe(
+      "black-yellow",
+    );
+  });
+
+  it("permite selecionar o tema Natal Verde, persiste a escolha e ativa símbolos natalinos", () => {
+    expect(isChristmasAppearance("christmas")).toBe(true);
+    expect(isChristmasAppearance("christmas-green")).toBe(true);
+    expect(isChristmasAppearance("cream")).toBe(false);
+
+    const view = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "Natal Verde" }));
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("christmas-green");
+    expect(parseAppSettings(localStorage.getItem(SETTINGS_STORAGE_KEY)).appearance).toBe(
+      "christmas-green",
+    );
+    view.unmount();
+
+    render(<App />);
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("christmas-green");
+    expect(JSON.parse(screen.getByTestId("settings").textContent ?? "{}").appearance).toBe(
+      "christmas-green",
+    );
+  });
+
+  it("o Tema Natalino não altera perfil, XP, Bíblia, áudio nem oração", () => {
+    const preserved = {
+      "lumen-profile": '{"nickname":"Ana","symbol":"heart","topic":"Bíblia"}',
+      "lumen-progress": '{"xp":25,"completed":["biblia"]}',
+      "lumen-bible-progress": '{"readChapters":["joao:3"]}',
+      "lumen-audio-preferences": '{"music":false,"effects":true}',
+    };
+    Object.entries(preserved).forEach(([key, value]) => localStorage.setItem(key, value));
+    sessionStorage.setItem("lumen-prayer-session", '{"favorites":["pai-nosso"]}');
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "Letra" }));
+    fireEvent.click(screen.getByRole("button", { name: "Movimento" }));
+    fireEvent.click(screen.getByRole("button", { name: "Tema Natalino" }));
+    expect(parseAppSettings(localStorage.getItem(SETTINGS_STORAGE_KEY))).toEqual({
+      appearance: "christmas",
+      textSize: 3,
+      reduceMotion: true,
+    });
+    Object.entries(preserved).forEach(([key, value]) =>
+      expect(localStorage.getItem(key)).toBe(value),
+    );
+    expect(sessionStorage.getItem("lumen-prayer-session")).toBe('{"favorites":["pai-nosso"]}');
+  });
+
+  it("mantém o tamanho da letra entre os cinco tamanhos disponíveis", () => {
+    expect(parseAppSettings('{"textSize":-1}').textSize).toBe(0);
+    expect(parseAppSettings('{"textSize":20}').textSize).toBe(4);
+    expect(parseAppSettings('{"textSize":1.5}').textSize).toBe(0);
+  });
+
+  it("lembra leitura e movimento sem alterar XP, perfil, som ou sessão de oração", () => {
+    const preserved = {
+      "lumen-progress": '{"xp":25}',
+      "lumen-profile": '{"nickname":"Teste"}',
+      "lumen-audio-preferences": '{"music":false,"effects":true}',
+    };
+    Object.entries(preserved).forEach(([key, value]) => localStorage.setItem(key, value));
+    sessionStorage.setItem("lumen-prayer-session", '{"favorites":["pai-nosso"]}');
+    const view = render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "Letra" }));
+    fireEvent.click(screen.getByRole("button", { name: "Movimento" }));
+    expect(document.documentElement.dataset["reduceMotion"]).toBe("true");
+    view.unmount();
+    render(<App />);
+    expect(JSON.parse(screen.getByTestId("settings").textContent ?? "{}")).toEqual({
+      appearance: "christmas",
+      textSize: 3,
+      reduceMotion: true,
+    });
+    Object.entries(preserved).forEach(([key, value]) =>
+      expect(localStorage.getItem(key)).toBe(value),
+    );
+    expect(sessionStorage.getItem("lumen-prayer-session")).toBe('{"favorites":["pai-nosso"]}');
+  });
+});
