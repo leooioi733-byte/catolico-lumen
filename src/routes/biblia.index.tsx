@@ -43,7 +43,10 @@ function Biblia() {
     : BIBLE_BOOKS.filter((b) => b.testament === tab);
   return (
     <AppShell wide>
-      <Link to="/biblioteca" className="text-sm font-bold text-muted-foreground">
+      <Link
+        to="/biblioteca"
+        className="btn-3d-sm inline-flex min-h-10 items-center gap-1.5 border-2 border-border bg-card px-3.5 py-1.5 text-sm font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
         ← Biblioteca
       </Link>
       <h1 className="mt-2 text-2xl font-bold text-primary">Bíblia Sagrada</h1>
@@ -99,7 +102,7 @@ function Biblia() {
               key={b.slug}
               to="/biblia/$livro"
               params={{ livro: b.slug }}
-              className="min-w-0 rounded-2xl border-2 border-border bg-card p-3 transition active:scale-[0.98]"
+              className="min-w-0 rounded-2xl border-2 border-border bg-card p-3 shadow-[0_3px_0_var(--color-border)] transition hover:border-gold/80 hover:bg-accent/35 active:translate-y-0.5 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <span className="flex items-start gap-1 break-words font-display font-semibold text-primary">
                 {b.name}

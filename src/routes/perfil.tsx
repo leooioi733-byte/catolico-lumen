@@ -1,11 +1,22 @@
+import { useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, BookOpen, ChevronDown, Map, Sparkles } from "lucide-react";
+import {
+  ArrowUpRight,
+  BookOpen,
+  ChevronDown,
+  HeartHandshake,
+  Map,
+  Sparkles,
+  User,
+} from "lucide-react";
 import { AppShell, ProgressBar, XpBadge } from "@/components/AppShell";
 import { AgnusWardrobeSection } from "@/components/AgnusWardrobeSection";
+import { DevotionSaintTabPanel, ProfileDevotionSaintCard } from "@/components/DevotionSaintSection";
 import { ProfileEmblem, ProfilePersonalization } from "@/components/ProfilePersonalization";
 import { StreakBadge, StreakProfileSection } from "@/components/StreakDisplay";
 import { useBibleProgress } from "@/components/BibleProgressProvider";
 import { useLocalProfile } from "@/hooks/use-local-profile";
+import { cn } from "@/lib/utils";
 import { useStreak } from "@/hooks/use-streak";
 import { BIBLE_BOOKS } from "@/lib/bible-books";
 import { formatPercent, getReadingStats } from "@/lib/bible-progress";
@@ -35,9 +46,16 @@ export const Route = createFileRoute("/perfil")({
 
 function Perfil() {
   const { progress } = useProgress();
-  const { profile, ready, saveProfile } = useLocalProfile();
+  const { profile, ready, saveProfile, saveDevotionSaint } = useLocalProfile();
   const { streak, monthDays } = useStreak();
   const { progress: bible, storageError } = useBibleProgress();
+  const [personalTab, setPersonalTab] = useState<"profile" | "saint">("profile");
+  const personalizationRef = useRef<HTMLElement | null>(null);
+
+  const openSaintTab = () => {
+    setPersonalTab("saint");
+    personalizationRef.current?.scrollIntoView?.({ behavior: "smooth", block: "start" });
+  };
   const learning = getLearningStats(progress.completed);
   const reading = getReadingStats(bible);
   const testaments = (["AT", "NT"] as const).map((testament) => ({
@@ -62,6 +80,8 @@ function Perfil() {
           </div>
         </div>
       </div>
+
+      <ProfileDevotionSaintCard saintId={profile.devotionSaintId} onOpenPicker={openSaintTab} />
 
       <StreakProfileSection streak={streak} monthDays={monthDays} />
 
@@ -94,7 +114,7 @@ function Perfil() {
             <Link
               key={title}
               to={to}
-              className="min-w-0 rounded-2xl border-2 border-border bg-card p-4 transition active:translate-y-0.5"
+              className="btn-3d min-w-0 rounded-2xl border-2 border-border bg-card p-4 [--btn-depth:var(--border)] hover:border-gold/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <div className="flex items-center justify-between text-primary">
                 <Icon className="h-5 w-5" aria-hidden="true" />
@@ -120,7 +140,7 @@ function Perfil() {
           <span>{reading.completedBooks} de 73 livros lidos</span>
         </div>
         <details className="group mt-5 border-t border-border pt-4">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-2 font-bold text-primary">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-xl border-2 border-transparent px-3 py-2 font-bold text-primary transition hover:border-border hover:bg-accent/45">
             Por unidade da trilha
             <ChevronDown
               className="h-5 w-5 shrink-0 transition group-open:rotate-180"
@@ -166,16 +186,74 @@ function Perfil() {
         )}
       </section>
 
-      <section className="mt-8 border-t-2 border-border pt-6" aria-labelledby="personal-title">
+      <section
+        id="personalizacao-perfil"
+        ref={personalizationRef}
+        className="mt-8 border-t-2 border-border pt-6"
+        aria-labelledby="personal-title"
+      >
         <h2 id="personal-title" className="text-xl font-semibold text-primary">
           Do seu jeito
         </h2>
-        {ready ? (
-          <ProfilePersonalization profile={profile} saveProfile={saveProfile} />
-        ) : (
+        <div
+          role="tablist"
+          aria-label="Abas de personalização do perfil"
+          className="mt-4 grid grid-cols-2 gap-2.5"
+        >
+          <button
+            type="button"
+            role="tab"
+            id="tab-perfil-dados"
+            aria-selected={personalTab === "profile"}
+            aria-controls="panel-perfil-dados"
+            data-sound="select"
+            onClick={() => setPersonalTab("profile")}
+            className={cn(
+              "btn-3d-sm inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-2xl border-2 px-3 py-2 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-sm",
+              personalTab === "profile"
+                ? "border-gold bg-primary text-primary-foreground [--btn-depth:var(--primary-deep)]"
+                : "border-border bg-card text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45",
+            )}
+          >
+            <User className="h-4 w-4 shrink-0" aria-hidden="true" />
+            Dados do perfil
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-santo-devocao"
+            aria-selected={personalTab === "saint"}
+            aria-controls="panel-santo-devocao"
+            data-sound="select"
+            onClick={() => setPersonalTab("saint")}
+            className={cn(
+              "btn-3d-sm inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-2xl border-2 px-3 py-2 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-sm",
+              personalTab === "saint"
+                ? "border-gold bg-primary text-primary-foreground [--btn-depth:var(--primary-deep)]"
+                : "border-border bg-card text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45",
+            )}
+          >
+            <HeartHandshake className="h-4 w-4 shrink-0" aria-hidden="true" />
+            Meu santo de devoção
+          </button>
+        </div>
+
+        {!ready ? (
           <p className="mt-4 text-muted-foreground">Carregando preferências…</p>
+        ) : personalTab === "profile" ? (
+          <div id="panel-perfil-dados" role="tabpanel" aria-labelledby="tab-perfil-dados">
+            <ProfilePersonalization profile={profile} saveProfile={saveProfile} />
+          </div>
+        ) : (
+          <div id="panel-santo-devocao" role="tabpanel" aria-labelledby="tab-santo-devocao">
+            <DevotionSaintTabPanel
+              selectedSaintId={profile.devotionSaintId}
+              ready={ready}
+              onSelectSaint={saveDevotionSaint}
+            />
+          </div>
         )}
-        <p className="text-xs text-muted-foreground">
+        <p className="mt-4 text-xs text-muted-foreground">
           Perfil e progresso guardados neste aparelho.
         </p>
       </section>

@@ -21,6 +21,7 @@ import { AgnusWardrobeProvider } from "@/components/AgnusWardrobeProvider";
 import { registerLumenServiceWorker } from "@/lib/pwa-register";
 import { MascotProvider } from "@/components/MascotProvider";
 import { GlobalMascot } from "@/components/GlobalMascot";
+import { RouteLoadingOverlay } from "@/components/RouteLoadingOverlay";
 
 function NotFoundComponent() {
   return (
@@ -94,7 +95,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
-      { name: "theme-color", content: "#641C32" },
+      { name: "theme-color", content: "#1D75D0" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
@@ -154,6 +155,7 @@ function RootComponent() {
               </BibleProgressProvider>
             </div>
             <GlobalMascot />
+            <RouteLoadingOverlay />
           </MascotProvider>
         </AudioProvider>
       </SettingsProvider>

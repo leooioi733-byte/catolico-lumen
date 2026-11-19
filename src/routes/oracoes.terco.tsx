@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Pause, Play } from "lucide-react";
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, Pause, Play, RotateCcw } from "lucide-react";
 import { useMemo } from "react";
 import { AgnusRosaryCompanion } from "@/components/AgnusCompanion";
 import { AppShell, ProgressBar } from "@/components/AppShell";
@@ -52,9 +52,9 @@ function Terco() {
   const back = (
     <Link
       to="/oracoes"
-      className="inline-flex min-h-11 items-center gap-2 font-bold text-muted-foreground"
+      className="btn-3d-sm inline-flex min-h-10 items-center gap-2 border-2 border-border bg-card px-3.5 py-1.5 text-sm font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
-      <ArrowLeft className="h-5 w-5" /> Orações
+      <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Orações
     </Link>
   );
 
@@ -107,9 +107,12 @@ function Terco() {
       <div className="flex items-center justify-between">
         {back}
         <button
+          type="button"
           onClick={exit}
-          className="min-h-11 text-sm font-bold text-muted-foreground underline"
+          data-sound="select"
+          className="btn-3d-sm inline-flex min-h-10 cursor-pointer items-center gap-1.5 border-2 border-border bg-card px-3.5 py-1.5 text-xs font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
+          <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
           Recomeçar
         </button>
       </div>
@@ -180,7 +183,9 @@ function Terco() {
           variant="outline"
           disabled={session.paused || index === 0}
           onClick={() => move(-1)}
+          className="gap-1.5"
         >
+          <ChevronLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
           Voltar
         </LumenButton>
         {last ? (
@@ -191,12 +196,15 @@ function Terco() {
               recordToday();
               setState((s) => (s.rosary ? { ...s, rosary: { ...s.rosary, completed: true } } : s));
             }}
+            className="gap-1.5"
           >
+            <Check className="h-4 w-4 shrink-0" aria-hidden="true" />
             Concluir
           </LumenButton>
         ) : (
-          <LumenButton disabled={session.paused} onClick={() => move(1)}>
+          <LumenButton disabled={session.paused} onClick={() => move(1)} className="gap-1.5">
             Avançar
+            <ChevronRight className="h-4 w-4 shrink-0" aria-hidden="true" />
           </LumenButton>
         )}
       </div>
@@ -233,7 +241,7 @@ function SetupForm({
         {MYSTERY_SETS.map((set) => (
           <label
             key={set.id}
-            className="flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-border bg-card p-4 has-[:checked]:border-gold has-[:checked]:bg-accent"
+            className="flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-border bg-card p-4 shadow-[0_3px_0_var(--color-border)] transition hover:border-gold/75 has-[:checked]:border-gold has-[:checked]:bg-accent has-[:checked]:shadow-[0_3px_0_var(--gold-deep)]"
           >
             <input
               type="radio"
@@ -257,7 +265,7 @@ function SetupForm({
           </label>
         ))}
       </fieldset>
-      <label className="mt-4 flex items-center gap-3 rounded-2xl border-2 border-border bg-card p-4">
+      <label className="mt-4 flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-border bg-card p-4 shadow-[0_3px_0_var(--color-border)] transition hover:border-gold/75 has-[:checked]:border-gold/80">
         <input
           type="checkbox"
           name="fatima"

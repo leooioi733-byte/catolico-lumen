@@ -10,7 +10,7 @@ describe("estatísticas da trilha", () => {
   it("usa lições distintas concluídas, nunca o XP", () => {
     expect(
       getLearningStats(["biblia", "biblia", "jesus", "credo", "id-inexistente"]),
-    ).toMatchObject({ completed: 3, total: 42, percent: 7.1 });
+    ).toMatchObject({ completed: 3, total: 330, percent: 0.9 });
     expect(getLearningStats([]).percent).toBe(0);
     expect(getLearningStats(LESSONS.map((lesson) => lesson.id)).percent).toBe(100);
   });
@@ -62,7 +62,7 @@ describe("personalização local da Conta", () => {
       symbol: "heart",
       topic: "Jesus",
     });
-    expect(LESSONS).toHaveLength(42);
+    expect(LESSONS).toHaveLength(330);
   });
   it("guarda apelido e símbolo sem alterar XP nem leitura", () => {
     localStorage.setItem(

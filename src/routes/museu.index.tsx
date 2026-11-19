@@ -34,7 +34,10 @@ function Museu() {
   const items = filterMuseumExhibits(MUSEUM_EXHIBITS, query, category);
   return (
     <AppShell wide>
-      <Link to="/biblioteca" className="text-sm font-bold text-muted-foreground">
+      <Link
+        to="/biblioteca"
+        className="btn-3d-sm inline-flex min-h-10 items-center gap-1.5 border-2 border-border bg-card px-3.5 py-1.5 text-sm font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
         ← Biblioteca
       </Link>
       <div className="mt-2 flex flex-wrap items-baseline justify-between gap-2">
@@ -64,7 +67,11 @@ function Museu() {
             data-sound="select"
             onClick={() => setCategory(id)}
             aria-pressed={category === id}
-            className={`inline-flex items-center gap-1.5 rounded-full border-2 px-3 py-1.5 text-xs font-bold transition active:scale-95 sm:text-sm ${category === id ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-primary"}`}
+            className={`btn-3d-sm inline-flex min-h-10 cursor-pointer items-center gap-1.5 border-2 px-3.5 py-1.5 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-sm ${
+              category === id
+                ? "border-gold bg-primary text-primary-foreground [--btn-depth:var(--primary-deep)]"
+                : "border-border bg-card text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45"
+            }`}
           >
             <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
             {label}
@@ -80,7 +87,7 @@ function Museu() {
               <Link
                 to="/museu/$id"
                 params={{ id: ex.id }}
-                className="block h-full overflow-hidden rounded-2xl border-2 border-border bg-card transition active:scale-[0.98]"
+                className="block h-full overflow-hidden rounded-2xl border-2 border-border bg-card transition hover:border-gold/80 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <MuseumImage exhibit={ex} />
                 <div className="p-4">

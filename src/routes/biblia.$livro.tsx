@@ -14,11 +14,28 @@ export const Route = createFileRoute("/biblia/$livro")({
   },
   head: ({ loaderData }) => {
     const t = loaderData ? `${loaderData.name} — Bíblia — Lumen` : "Livro — Bíblia — Lumen";
-    const d = loaderData ? `Leia o livro de ${loaderData.name} completo, capítulo por capítulo.` : "Bíblia Sagrada no Lumen.";
-    return { meta: [{ title: t }, { name: "description", content: d }, { property: "og:title", content: t },
-      { property: "og:description", content: d }, { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" }] };
+    const d = loaderData
+      ? `Leia o livro de ${loaderData.name} completo, capítulo por capítulo.`
+      : "Bíblia Sagrada no Lumen.";
+    return {
+      meta: [
+        { title: t },
+        { name: "description", content: d },
+        { property: "og:title", content: t },
+        { property: "og:description", content: d },
+        { property: "og:type", content: "article" },
+        { name: "twitter:card", content: "summary" },
+      ],
+    };
   },
-  notFoundComponent: () => <AppShell><p>Livro não encontrado.</p><Link to="/biblia" className="underline">Voltar</Link></AppShell>,
+  notFoundComponent: () => (
+    <AppShell>
+      <p>Livro não encontrado.</p>
+      <Link to="/biblia" className="underline">
+        Voltar
+      </Link>
+    </AppShell>
+  ),
   component: Livro,
 });
 
@@ -28,20 +45,42 @@ function Livro() {
   const stats = getReadingStats(progress, [book]);
   return (
     <AppShell>
-      <Link to="/biblia" className="text-sm font-bold text-muted-foreground">← Bíblia</Link>
+      <Link
+        to="/biblia"
+        className="btn-3d-sm inline-flex min-h-10 items-center gap-1.5 border-2 border-border bg-card px-3.5 py-1.5 text-sm font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        ← Bíblia
+      </Link>
       <h1 className="mt-2 text-2xl font-bold text-primary">{book.name}</h1>
       <p className="mt-1 text-muted-foreground">Escolha o capítulo.</p>
       <div className="mt-5 border-y border-border py-4">
-        <div className="mb-3 flex items-center justify-between gap-2 text-sm"><span>{stats.read} de {stats.total} capítulos lidos</span><span className="font-bold">{formatPercent(stats.percent)}</span></div>
+        <div className="mb-3 flex items-center justify-between gap-2 text-sm">
+          <span>
+            {stats.read} de {stats.total} capítulos lidos
+          </span>
+          <span className="font-bold">{formatPercent(stats.percent)}</span>
+        </div>
         <ProgressBar value={stats.percent} label={`${book.name} lido`} />
       </div>
       <div className="mt-5 grid grid-cols-5 gap-2 sm:grid-cols-8">
         {Array.from({ length: book.chapters }, (_, i) => i + 1).map((c) => (
-          <Link key={c} to="/biblia/$livro/$cap" params={{ livro: book.slug, cap: String(c) }}
+          <Link
+            key={c}
+            to="/biblia/$livro/$cap"
+            params={{ livro: book.slug, cap: String(c) }}
             aria-label={`Capítulo ${c}${progress.readChapters.includes(`${book.slug}:${c}`) ? ", lido" : ""}`}
-            className={cn("relative flex aspect-square items-center justify-center rounded-xl border-2 border-border bg-card font-bold text-primary shadow-[0_3px_0_var(--color-border)] transition active:translate-y-0.5 active:shadow-none", progress.readChapters.includes(`${book.slug}:${c}`) && "border-gold bg-accent")}>
+            className={cn(
+              "relative flex aspect-square items-center justify-center rounded-xl border-2 border-border bg-card font-bold text-primary shadow-[0_3px_0_var(--color-border)] transition hover:border-gold/80 hover:bg-accent/45 active:translate-y-0.5 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              progress.readChapters.includes(`${book.slug}:${c}`) && "border-gold bg-accent",
+            )}
+          >
             {c}
-            {progress.readChapters.includes(`${book.slug}:${c}`) && <Check className="absolute right-0.5 top-0.5 h-3 w-3 text-primary" aria-hidden="true" />}
+            {progress.readChapters.includes(`${book.slug}:${c}`) && (
+              <Check
+                className="absolute right-0.5 top-0.5 h-3 w-3 text-primary"
+                aria-hidden="true"
+              />
+            )}
           </Link>
         ))}
       </div>

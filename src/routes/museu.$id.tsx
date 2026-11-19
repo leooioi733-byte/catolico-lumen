@@ -47,7 +47,10 @@ function Exhibit() {
   const ex = Route.useLoaderData();
   return (
     <AppShell wide>
-      <Link to="/museu" className="text-sm font-bold text-muted-foreground">
+      <Link
+        to="/museu"
+        className="btn-3d-sm inline-flex min-h-10 items-center gap-1.5 border-2 border-border bg-card px-3.5 py-1.5 text-sm font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
         ← Museu Católico
       </Link>
       <article className="mt-3 overflow-hidden rounded-2xl border-2 border-border bg-card">

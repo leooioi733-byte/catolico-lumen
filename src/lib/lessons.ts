@@ -1,6 +1,12 @@
 import { ADDITIONAL_UNITS } from "./lesson-units";
 import { DEEPENING_UNITS } from "./lesson-deepening";
 import { CATECHESIS_EXPANSION_UNITS } from "./lesson-catechesis";
+import { CURRICULUM_PART_1_UNITS } from "./lesson-curriculum-part1";
+import { CURRICULUM_PART_2_UNITS } from "./lesson-curriculum-part2";
+import { CURRICULUM_PART_3_UNITS } from "./lesson-curriculum-part3";
+import { CURRICULUM_PART_4_UNITS } from "./lesson-curriculum-part4";
+import { CURRICULUM_PART_5_UNITS } from "./lesson-curriculum-part5";
+import { CURRICULUM_PART_6_UNITS } from "./lesson-curriculum-part6";
 import type { Lesson, LessonUnit } from "./lesson-types";
 export type {
   ClassifyActivity,
@@ -308,6 +314,12 @@ export const UNITS: LessonUnit[] = [
   ...ADDITIONAL_UNITS,
   ...DEEPENING_UNITS,
   ...CATECHESIS_EXPANSION_UNITS,
+  ...CURRICULUM_PART_1_UNITS,
+  ...CURRICULUM_PART_2_UNITS,
+  ...CURRICULUM_PART_3_UNITS,
+  ...CURRICULUM_PART_4_UNITS,
+  ...CURRICULUM_PART_5_UNITS,
+  ...CURRICULUM_PART_6_UNITS,
 ];
 export const LESSONS: Lesson[] = UNITS.flatMap((unit) => unit.lessons);
 

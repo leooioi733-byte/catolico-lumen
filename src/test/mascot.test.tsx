@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { AgnusWardrobeProvider } from "@/components/AgnusWardrobeProvider";
 import { BibleProgressProvider } from "@/components/BibleProgressProvider";
 import { GlobalMascot } from "@/components/GlobalMascot";
-import { MeuAgnusArea } from "@/components/MeuAgnusArea";
+import { AgnusWardrobeSection } from "@/components/AgnusWardrobeSection";
 import { ProfilePersonalization } from "@/components/ProfilePersonalization";
 import { SettingsProvider } from "@/components/SettingsProvider";
 import { LumenButton } from "@/components/ui/lumen-button";
@@ -328,7 +328,7 @@ describe("persistência, personalização de nome e guarda-roupa do Agnus", () =
       <SettingsProvider>
         <BibleProgressProvider>
           <AgnusWardrobeProvider>
-            <MeuAgnusArea />
+            <AgnusWardrobeSection />
             <ProfileFormHarness />
             <CompanionProfile />
           </AgnusWardrobeProvider>
@@ -337,6 +337,9 @@ describe("persistência, personalização de nome e guarda-roupa do Agnus", () =
     );
 
     expect(screen.getByText(/2 de 11 roupinhas desbloqueadas/i)).toBeInTheDocument();
+    expect(screen.queryByLabelText("Nome do mascote")).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Personalizar" }));
+
     expect(screen.getByText("Conclua 30% da trilha de aprendizado")).toBeInTheDocument();
     expect(screen.getByText("Leia 2% da Bíblia Sagrada")).toBeInTheDocument();
     expect(screen.getByText("Conclua 20% do Especial de Natal")).toBeInTheDocument();
@@ -352,8 +355,7 @@ describe("persistência, personalização de nome e guarda-roupa do Agnus", () =
       parseAgnusWardrobe(localStorage.getItem(AGNUS_WARDROBE_STORAGE_KEY)).unlockedIds,
     ).toContain("coroinha");
 
-    // Renomeia o mascote na aba Nome do Meu Agnus
-    fireEvent.click(screen.getByRole("tab", { name: "Nome" }));
+    // Renomeia o mascote na seção de personalização do Agnus
     const mascotNameInput = screen.getByLabelText("Nome do mascote");
     fireEvent.change(mascotNameInput, { target: { value: "Cordeirinho Bento" } });
     fireEvent.click(screen.getByRole("button", { name: "Salvar nome" }));
@@ -361,6 +363,9 @@ describe("persistência, personalização de nome e guarda-roupa do Agnus", () =
     expect(parseProfile(localStorage.getItem(PROFILE_STORAGE_KEY)).mascotName).toBe(
       "Cordeirinho Bento",
     );
+
+    // Fecha o modal de personalização para editar o perfil pessoal fora do diálogo
+    fireEvent.click(screen.getByRole("button", { name: "Fechar" }));
 
     // Editar o apelido no formulário pessoal mantém tanto a roupa quanto o nome do mascote
     const nicknameInput = screen.getByLabelText("Nome ou apelido");
@@ -373,7 +378,8 @@ describe("persistência, personalização de nome e guarda-roupa do Agnus", () =
       mascotName: "Cordeirinho Bento",
     });
 
-    // Restaura o nome padrão "Agnus" pelo botão da seção
+    // Reabre a personalização e restaura o nome padrão "Agnus"
+    fireEvent.click(screen.getByRole("button", { name: "Personalizar" }));
     fireEvent.click(screen.getByRole("button", { name: "Restaurar Agnus" }));
     expect(screen.getByTestId("companion-name")).toHaveTextContent("Agnus");
     expect(parseProfile(localStorage.getItem(PROFILE_STORAGE_KEY)).mascotName).toBe("Agnus");

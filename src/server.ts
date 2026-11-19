@@ -2,6 +2,7 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { handleAgnusChatRequest } from "./lib/agnus-ai-server";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -44,8 +45,35 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+function jsonResponse(payload: unknown, status: number): Response {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+    },
+  });
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const url = new URL(request.url);
+    if (url.pathname === "/api/agnus") {
+      if (request.method !== "POST") {
+        return jsonResponse({ error: "Método não permitido." }, 405);
+      }
+      try {
+        const payload: unknown = await request.json();
+        const result = await handleAgnusChatRequest(payload);
+        if (!result.ok) {
+          return jsonResponse({ error: result.error, code: result.code }, result.status);
+        }
+        return jsonResponse({ reply: result.reply }, 200);
+      } catch {
+        return jsonResponse({ error: "JSON inválido na requisição." }, 400);
+      }
+    }
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

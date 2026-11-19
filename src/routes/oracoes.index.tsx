@@ -10,7 +10,6 @@ import { PRAYERS } from "@/lib/prayers";
 import { getMysterySet, mysteriesForDay } from "@/lib/rosary";
 import { isChristmasAppearance } from "@/lib/settings";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 type FilterMode = "all" | PrayerCategory | "favorites";
 
@@ -60,23 +59,26 @@ function Oracoes() {
 
       <Link
         to="/oracoes/terco"
-        className="rosary-prompt btn-3d mt-6 block rounded-2xl bg-primary p-5 text-primary-foreground [--btn-depth:var(--primary-deep)]"
+        className="rosary-prompt btn-3d mt-6 flex items-center justify-between gap-3 rounded-2xl bg-primary p-5 text-primary-foreground [--btn-depth:var(--primary-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        <p className="rosary-label flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-gold">
-          {isChristmasAppearance(settings.appearance) && (
-            <Bell className="h-4 w-4" aria-hidden="true" />
-          )}
-          Terço guiado
-        </p>
-        <p className="mt-1 font-display text-xl font-semibold">
-          {state.rosary && !state.rosary.completed ? "Continuar o terço" : "Rezar o terço"}
-        </p>
-        <p className="mt-1 text-sm opacity-90">Hoje: {today.title.toLowerCase()}</p>
+        <span className="min-w-0">
+          <span className="rosary-label flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-gold">
+            {isChristmasAppearance(settings.appearance) && (
+              <Bell className="h-4 w-4" aria-hidden="true" />
+            )}
+            Terço guiado
+          </span>
+          <span className="mt-1 block font-display text-xl font-semibold">
+            {state.rosary && !state.rosary.completed ? "Continuar o terço" : "Rezar o terço"}
+          </span>
+          <span className="mt-1 block text-sm opacity-90">Hoje: {today.title.toLowerCase()}</span>
+        </span>
+        <ChevronRight className="h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
       </Link>
 
       <Link
         to="/calendario"
-        className="btn-3d mt-4 flex items-center justify-between rounded-2xl border-2 border-border bg-card p-5 text-primary"
+        className="btn-3d mt-4 flex items-center justify-between rounded-2xl border-2 border-border bg-card p-5 text-primary [--btn-depth:var(--border)] hover:border-gold/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <span>
           <span className="block text-xs font-bold uppercase tracking-wide text-muted-foreground">
@@ -84,7 +86,7 @@ function Oracoes() {
           </span>
           <span className="font-display text-xl font-semibold">Santos de cada dia</span>
         </span>
-        <ChevronRight className="h-5 w-5 text-muted-foreground" />
+        <ChevronRight className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
       </Link>
 
       <div className="mt-8">
@@ -96,21 +98,21 @@ function Oracoes() {
         </div>
         <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Filtrar orações">
           {FILTERS.map(({ id, label }) => (
-            <Button
+            <button
               key={id}
-              variant="ghost"
+              type="button"
               aria-pressed={filter === id}
               data-sound="select"
               onClick={() => setFilter(id)}
               className={cn(
-                "h-auto rounded-full border-2 px-3 py-1.5 text-xs font-bold transition",
+                "btn-3d-sm min-h-10 cursor-pointer border-2 px-3.5 py-1.5 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 filter === id
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-card text-primary",
+                  ? "border-gold bg-primary text-primary-foreground [--btn-depth:var(--primary-deep)]"
+                  : "border-border bg-card text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45",
               )}
             >
               {label}
-            </Button>
+            </button>
           ))}
         </div>
       </div>
@@ -119,12 +121,12 @@ function Oracoes() {
         {list.map((p) => (
           <li
             key={p.id}
-            className="flex items-center gap-2 rounded-2xl border-2 border-border bg-card p-2 pl-4"
+            className="flex items-center gap-2 rounded-2xl border-2 border-border bg-card p-2 pl-4 transition-colors hover:border-gold/80"
           >
             <Link
               to="/oracoes/$id"
               params={{ id: p.id }}
-              className="flex min-h-11 flex-1 items-center justify-between gap-2 py-1 font-display text-lg font-semibold text-primary"
+              className="flex min-h-11 flex-1 items-center justify-between gap-2 rounded-xl py-1 font-display text-lg font-semibold text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <span className="min-w-0">
                 <span className="block">{p.title}</span>

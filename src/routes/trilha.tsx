@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AgnusCompanionCard, AgnusNextGoalBanner } from "@/components/AgnusCompanion";
+import { AgnusNextGoalBanner } from "@/components/AgnusCompanion";
 import { AppShell } from "@/components/AppShell";
 import { ChristmasJourneyCard } from "@/components/ChristmasJourneyCard";
 import { LessonPath } from "@/components/LessonPath";
@@ -36,7 +36,6 @@ function Trilha() {
       <p className="mb-5 mt-1 text-muted-foreground">
         {UNITS.length} unidades · {LESSONS.length} lições
       </p>
-      <AgnusCompanionCard moment="path" context="track" className="mb-4" />
       <ChristmasJourneyCard compact className="mb-4" />
       <AgnusNextGoalBanner source="track" className="mb-6" />
       <LessonPath completed={progress.completed} />

@@ -7,12 +7,15 @@ describe("lições", () => {
     expect(nextLesson([])?.title).toBe("O que é a Bíblia?");
   });
   it("preserva as unidades anteriores e acrescenta as novas unidades de catequese", () => {
-    expect(UNITS).toHaveLength(14);
+    expect(UNITS).toHaveLength(110);
     expect(UNITS[0]?.lessons).toHaveLength(6);
-    expect(UNITS.slice(1).map((unit) => unit.lessons.length)).toEqual([
+    expect(UNITS.slice(1, 14).map((unit) => unit.lessons.length)).toEqual([
       3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2,
     ]);
-    expect(LESSONS).toHaveLength(42);
+    expect(UNITS.slice(14)).toHaveLength(96);
+    expect(UNITS.slice(14).every((unit) => unit.lessons.length === 3)).toBe(true);
+    expect(new Set(UNITS.map((unit) => unit.id)).size).toBe(110);
+    expect(LESSONS).toHaveLength(330);
   });
   it("continua na história da salvação depois dos fundamentos", () => {
     const foundation = UNITS[0];
@@ -58,7 +61,7 @@ describe("lições", () => {
   });
   it("oferece ensinamentos antes das perguntas nas lições de aprofundamento e expansão, com fontes bíblicas e do Catecismo", () => {
     const added = LESSONS.slice(18);
-    expect(added).toHaveLength(24);
+    expect(added).toHaveLength(312);
     for (const lesson of added) {
       expect(lesson.teachings).toHaveLength(3);
       expect(lesson.questions).toHaveLength(3);
@@ -74,10 +77,10 @@ describe("lições", () => {
   });
   it("encerra a trilha apenas quando todas as lições foram concluídas", () => {
     expect(nextLesson(LESSONS.map((l) => l.id))).toBeNull();
-    expect(nextLesson(LESSONS.slice(0, -1).map((l) => l.id))?.id).toBe("pecados-desejos-preguica");
+    expect(nextLesson(LESSONS.slice(0, -1).map((l) => l.id))?.id).toBe("discernimento-alegria-paz");
   });
   it("usa IDs únicos e respostas válidas em todas as perguntas", () => {
-    expect(new Set(LESSONS.map((l) => l.id)).size).toBe(42);
+    expect(new Set(LESSONS.map((l) => l.id)).size).toBe(330);
     for (const lesson of LESSONS) {
       expect(lesson.teachings.length).toBeGreaterThan(0);
       expect(lesson.questions.length).toBeGreaterThan(0);

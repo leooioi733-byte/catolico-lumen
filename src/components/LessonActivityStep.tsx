@@ -90,11 +90,17 @@ function MatchActivityView({
               onClick={() => setSelectedLeft(pair.id)}
               aria-pressed={isSelected}
               className={cn(
-                "w-full rounded-2xl border-2 p-3 text-left transition",
-                isCorrect && "border-success bg-success/15 text-foreground",
-                isWrong && "border-destructive bg-destructive/10 text-foreground",
-                !checked && isSelected && "border-primary bg-accent",
-                !checked && !isSelected && "border-border bg-card",
+                "btn-3d-sm w-full border-2 p-3 text-left font-sans focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none",
+                isCorrect &&
+                  "border-success bg-success/15 text-foreground [--btn-depth:var(--success-deep)]",
+                isWrong &&
+                  "border-destructive bg-destructive/10 text-foreground [--btn-depth:var(--destructive-deep)]",
+                !checked &&
+                  isSelected &&
+                  "border-gold bg-accent ring-2 ring-gold/30 [--btn-depth:var(--gold-deep)]",
+                !checked &&
+                  !isSelected &&
+                  "border-border bg-card [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45",
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -129,7 +135,7 @@ function MatchActivityView({
                 type="button"
                 data-sound="select"
                 onClick={resetPairs}
-                className="inline-flex items-center gap-1 text-xs font-bold text-primary underline"
+                className="btn-3d-sm inline-flex min-h-9 items-center gap-1.5 border-2 border-border bg-card px-3 py-1 text-xs font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
                 Limpar
@@ -235,12 +241,12 @@ function ClassifyActivityView({
                       aria-pressed={active}
                       onClick={() => setPicks((prev) => ({ ...prev, [item.id]: idx }))}
                       className={cn(
-                        "rounded-xl border-2 px-3 py-2 text-xs font-bold transition",
+                        "btn-3d-sm min-h-11 border-2 px-3 py-2 text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none",
                         checked && rightAnswer
-                          ? "border-success bg-success text-success-foreground"
+                          ? "border-success bg-success text-success-foreground [--btn-depth:var(--success-deep)]"
                           : active
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border bg-background text-primary",
+                            ? "border-gold bg-primary text-primary-foreground [--btn-depth:var(--primary-deep)]"
+                            : "border-border bg-background text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45",
                       )}
                     >
                       {catLabel}

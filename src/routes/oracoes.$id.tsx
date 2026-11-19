@@ -3,7 +3,6 @@ import { ArrowLeft, BookOpen, Languages } from "lucide-react";
 import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { FavoriteButton, PrayerText, TextSizeControls } from "@/components/PrayerReader";
-import { Button } from "@/components/ui/button";
 import { getPrayer } from "@/lib/prayers";
 import { cn } from "@/lib/utils";
 
@@ -56,9 +55,9 @@ function PrayerPage() {
     <AppShell>
       <Link
         to="/oracoes"
-        className="inline-flex min-h-11 items-center gap-2 font-bold text-muted-foreground"
+        className="btn-3d-sm inline-flex min-h-10 items-center gap-2 border-2 border-border bg-card px-3.5 py-1.5 text-sm font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        <ArrowLeft className="h-5 w-5" /> Orações
+        <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Orações
       </Link>
       <div className="mt-2 flex items-start justify-between gap-3">
         <div className="min-w-0">
@@ -76,7 +75,7 @@ function PrayerPage() {
           <div
             role="group"
             aria-label="Modo de exibição do idioma"
-            className="flex rounded-full border-2 border-border bg-card p-1 text-xs font-bold"
+            className="flex gap-1 rounded-2xl border-2 border-border bg-card p-1 text-xs font-bold"
           >
             {(
               [
@@ -85,19 +84,21 @@ function PrayerPage() {
                 ["portuguese", "Português"],
               ] as const
             ).map(([id, label]) => (
-              <Button
+              <button
                 key={id}
-                variant="ghost"
+                type="button"
                 aria-pressed={mode === id}
                 data-sound="select"
                 onClick={() => setMode(id)}
                 className={cn(
-                  "h-auto rounded-full px-3 py-1.5 text-xs font-bold transition",
-                  mode === id ? "bg-primary text-primary-foreground" : "text-muted-foreground",
+                  "min-h-10 cursor-pointer px-3 py-1.5 text-xs font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  mode === id
+                    ? "btn-3d-sm border-2 border-gold bg-primary text-primary-foreground [--btn-depth:var(--primary-deep)]"
+                    : "rounded-xl border-2 border-transparent text-muted-foreground hover:bg-accent/55 hover:text-primary",
                 )}
               >
                 {label}
-              </Button>
+              </button>
             ))}
           </div>
         )}

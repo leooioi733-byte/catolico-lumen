@@ -195,9 +195,9 @@ function ChristmasChapterSession({ chapter }: { chapter: ChristmasChapter }) {
         <Link
           to="/natal"
           aria-label="Voltar ao Especial de Natal"
-          className="text-muted-foreground"
+          className="btn-3d-sm grid h-11 w-11 shrink-0 place-items-center border-2 border-border bg-card text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <X className="h-7 w-7" />
+          <X className="h-5 w-5" aria-hidden="true" />
         </Link>
         <ProgressBar
           value={((step + (checked ? 1 : 0)) / totalSteps) * 100}
@@ -266,7 +266,7 @@ function ChristmasChapterSession({ chapter }: { chapter: ChristmasChapter }) {
                         <Link
                           to="/biblia/$livro/$cap"
                           params={{ livro: ref.bookSlug, cap: String(ref.chapter) }}
-                          className="text-xs font-bold text-secondary underline"
+                          className="btn-3d-sm inline-flex min-h-8 items-center border border-gold/70 bg-accent px-2.5 py-1 text-xs font-bold text-primary [--btn-depth:var(--gold-deep)] hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                           Ler na Bíblia →
                         </Link>
@@ -372,7 +372,7 @@ function ChristmasChapterSession({ chapter }: { chapter: ChristmasChapter }) {
                   <Link
                     to="/natal/$id"
                     params={{ id: previous.id }}
-                    className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary"
+                    className="btn-3d-sm inline-flex min-h-10 items-center gap-1.5 border-2 border-border bg-card px-3.5 py-1.5 text-xs font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
                     Cap. {previous.order}
@@ -384,7 +384,7 @@ function ChristmasChapterSession({ chapter }: { chapter: ChristmasChapter }) {
                   <Link
                     to="/natal/$id"
                     params={{ id: next.id }}
-                    className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary"
+                    className="btn-3d-sm inline-flex min-h-10 items-center gap-1.5 border-2 border-border bg-card px-3.5 py-1.5 text-xs font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     Cap. {next.order}
                     <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />

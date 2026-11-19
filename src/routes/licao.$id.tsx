@@ -151,8 +151,12 @@ function LessonSession({ lesson }: { lesson: Lesson }) {
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col px-5 pb-6 pt-5">
       <div className="flex items-center gap-3">
-        <Link to="/inicio" aria-label="Sair da lição" className="text-muted-foreground">
-          <X className="h-7 w-7" />
+        <Link
+          to="/inicio"
+          aria-label="Sair da lição"
+          className="btn-3d-sm grid h-11 w-11 shrink-0 place-items-center border-2 border-border bg-card text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <X className="h-5 w-5" aria-hidden="true" />
         </Link>
         <ProgressBar value={((step + (checked ? 1 : 0)) / total) * 100} />
       </div>

@@ -11,6 +11,7 @@ import {
   isKnownAgnusOutfit,
   type MascotOutfit,
 } from "@/lib/mascot";
+import { isKnownSaintId } from "@/lib/saints";
 
 export const PROFILE_STORAGE_KEY = "lumen-profile";
 export const PROFILE_SYMBOLS = ["cross", "book", "heart", "church", "sun", "flower"] as const;
@@ -21,6 +22,7 @@ export type Profile = Onboarding & {
   mascotName: string;
   mascotAccessory: string;
   mascotScenario: string;
+  devotionSaintId: string | null;
 };
 export const PROFILE_CHANGED_EVENT = "lumen-profile-changed";
 export const PROFILE_LEVELS = [
@@ -53,6 +55,7 @@ export function parseProfile(raw: string | null): Profile {
     mascotName: AGNUS_NAME,
     mascotAccessory: DEFAULT_AGNUS_ACCESSORY_ID,
     mascotScenario: DEFAULT_AGNUS_SCENARIO_ID,
+    devotionSaintId: null,
   };
   try {
     const value: unknown = JSON.parse(raw ?? "null");
@@ -83,6 +86,7 @@ export function parseProfile(raw: string | null): Profile {
       mascotScenario: isKnownScenarioId(data["mascotScenario"])
         ? data["mascotScenario"]
         : DEFAULT_AGNUS_SCENARIO_ID,
+      devotionSaintId: isKnownSaintId(data["devotionSaintId"]) ? data["devotionSaintId"] : null,
     };
   } catch {
     return fallback;
@@ -90,7 +94,12 @@ export function parseProfile(raw: string | null): Profile {
 }
 
 export type ProfileEdit = Pick<Profile, "nickname" | "symbol" | "level" | "topic"> &
-  Partial<Pick<Profile, "mascotOutfit" | "mascotName" | "mascotAccessory" | "mascotScenario">>;
+  Partial<
+    Pick<
+      Profile,
+      "mascotOutfit" | "mascotName" | "mascotAccessory" | "mascotScenario" | "devotionSaintId"
+    >
+  >;
 
 export function updatePersonalProfile(profile: Profile, patch: ProfileEdit): Profile {
   return parseProfile(

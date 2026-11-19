@@ -13,11 +13,12 @@ describe("App routing", () => {
     const matches = router.matchRoutes("/");
     const natalMatches = router.matchRoutes("/natal");
     const natalChapterMatches = router.matchRoutes("/natal/nascimento-jesus");
-    const meuAgnusMatches = router.matchRoutes("/meu-agnus");
+    const mapasMatches = router.matchRoutes("/mapas");
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
     expect(natalMatches.at(-1)?.routeId).toBe("/natal/");
     expect(natalChapterMatches.at(-1)?.routeId).toBe("/natal/$id");
-    expect(meuAgnusMatches.at(-1)?.routeId).toBe("/meu-agnus");
+    expect(mapasMatches.at(-1)?.routeId).toBe("/mapas");
+    expect(Object.keys(router.routesById)).not.toContain("/meu-agnus");
   });
 });

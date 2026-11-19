@@ -14,6 +14,10 @@ function Preferences() {
   return (
     <>
       <output data-testid="settings">{JSON.stringify(settings)}</output>
+      <LumenButton onClick={() => updateSettings({ appearance: "auto" })}>Automático</LumenButton>
+      <LumenButton onClick={() => updateSettings({ appearance: "white-blue" })}>
+        Branco e azul claro
+      </LumenButton>
       <LumenButton onClick={() => updateSettings({ appearance: "burgundy" })}>Grená</LumenButton>
       <LumenButton onClick={() => updateSettings({ appearance: "cream" })}>Creme</LumenButton>
       <LumenButton onClick={() => updateSettings({ appearance: "black-yellow" })}>
@@ -44,10 +48,45 @@ describe("preferências do aparelho", () => {
     delete document.documentElement.dataset["reduceMotion"];
   });
 
-  it("começa com o Tema Natalino por padrão para novos usuários", () => {
-    expect(parseAppSettings(null).appearance).toBe("christmas");
+  it("começa no modo Automático seguindo o sistema entre Branco e azul claro e Preto e amarelo", () => {
+    expect(parseAppSettings(null).appearance).toBe("auto");
+    expect(isChristmasAppearance("auto")).toBe(false);
+    expect(isChristmasAppearance("white-blue")).toBe(false);
     render(<App />);
-    expect(document.documentElement.dataset["lumenTheme"]).toBe("christmas");
+    expect(document.documentElement.dataset["lumenTheme"]).toBe("white-blue");
+  });
+
+  it("alterna automaticamente para black-yellow quando o sistema está em modo escuro", () => {
+    const originalMatchMedia = window.matchMedia;
+    let listener: ((event: MediaQueryListEvent) => void) | null = null;
+    window.matchMedia = ((query: string) => ({
+      matches: query === "(prefers-color-scheme: dark)",
+      media: query,
+      onchange: null,
+      addEventListener: (_type: string, cb: (event: MediaQueryListEvent) => void) => {
+        listener = cb;
+      },
+      removeEventListener: () => {
+        listener = null;
+      },
+      addListener: () => {},
+      removeListener: () => {},
+      dispatchEvent: () => false,
+    })) as typeof window.matchMedia;
+
+    try {
+      render(<App />);
+      expect(document.documentElement.dataset["lumenTheme"]).toBe("black-yellow");
+
+      fireEvent.click(screen.getByRole("button", { name: "Creme" }));
+      expect(document.documentElement.dataset["lumenTheme"]).toBe("cream");
+
+      fireEvent.click(screen.getByRole("button", { name: "Automático" }));
+      expect(document.documentElement.dataset["lumenTheme"]).toBe("black-yellow");
+      expect(listener).not.toBeNull();
+    } finally {
+      window.matchMedia = originalMatchMedia;
+    }
   });
 
   it("preserva a preferência salva de quem já escolheu Creme, Grená ou Preto e amarelo", () => {
@@ -193,7 +232,7 @@ describe("preferências do aparelho", () => {
     view.unmount();
     render(<App />);
     expect(JSON.parse(screen.getByTestId("settings").textContent ?? "{}")).toEqual({
-      appearance: "christmas",
+      appearance: "auto",
       textSize: 3,
       reduceMotion: true,
     });

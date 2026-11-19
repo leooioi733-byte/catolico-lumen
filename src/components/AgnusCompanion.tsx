@@ -173,11 +173,13 @@ export function AgnusCompanionCard({
               <span>{equippedOutfit.name}</span>
             </div>
             <Link
-              to="/meu-agnus"
-              className="inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-border bg-background/70 px-3 py-1.5 text-xs font-bold text-primary transition hover:border-gold"
+              to="/perfil"
+              hash="agnus"
+              data-sound="select"
+              className="btn-3d-sm inline-flex min-h-10 items-center gap-1.5 border-2 border-border bg-background/85 px-3 py-1.5 text-xs font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <Shirt className="h-3.5 w-3.5" aria-hidden="true" />
-              Meu {mascotName} ({unlockedIds.length}/{outfits.length} ·{" "}
+              Personalizar ({unlockedIds.length}/{outfits.length} ·{" "}
               {unlockedAccessoryIds.length - 1}/{accessories.length - 1})
             </Link>
           </div>
@@ -198,7 +200,7 @@ export function AgnusCompanionCard({
                 type="button"
                 data-sound="select"
                 onClick={cycleMessage}
-                className="inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-border px-3 py-1.5 text-xs font-bold text-muted-foreground hover:border-gold hover:text-primary"
+                className="btn-3d-sm inline-flex min-h-10 items-center gap-1.5 border-2 border-border bg-background/85 px-3 py-1.5 text-xs font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
                 Outra palavra de {mascotName}
@@ -315,7 +317,8 @@ export function AgnusNextGoalBanner({
 
   return (
     <Link
-      to="/meu-agnus"
+      to="/perfil"
+      hash="agnus"
       className={cn(
         "flex items-center gap-3 rounded-2xl border-2 border-border bg-card p-3 transition hover:border-gold active:translate-y-0.5",
         className,
@@ -402,7 +405,7 @@ export function AgnusCelebrationBanner({
           type="button"
           onClick={() => dismissCelebration(outfit.id)}
           aria-label={`Fechar aviso da roupa ${outfit.name}`}
-          className="rounded-lg p-1 text-muted-foreground hover:text-primary"
+          className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border-2 border-transparent text-muted-foreground transition hover:border-border hover:bg-accent/60 hover:text-primary active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <X className="h-4 w-4" />
         </button>
@@ -438,11 +441,13 @@ export function AgnusCelebrationBanner({
           {isEquipped ? "Já equipada" : "Equipar agora"}
         </LumenButton>
         <Link
-          to="/meu-agnus"
+          to="/perfil"
+          hash="agnus"
+          data-sound="select"
           onClick={() => dismissCelebration(outfit.id)}
-          className="inline-flex items-center justify-center rounded-2xl border-2 border-border bg-card px-3 py-2.5 text-xs font-bold text-primary hover:border-gold"
+          className="btn-3d-sm inline-flex min-h-11 items-center justify-center border-2 border-border bg-card px-4 py-2 text-xs font-bold text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          Abrir Meu Agnus
+          Ver na Conta
         </Link>
       </div>
     </aside>

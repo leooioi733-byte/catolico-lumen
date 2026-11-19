@@ -15,9 +15,15 @@ export const Route = createFileRoute("/cadastro")({
   head: () => ({
     meta: [
       { title: "Criar perfil — Lumen" },
-      { name: "description", content: "Conte um pouco sobre você e comece sua jornada na fé com o Lumen." },
+      {
+        name: "description",
+        content: "Conte um pouco sobre você e comece sua jornada na fé com o Lumen.",
+      },
       { property: "og:title", content: "Criar perfil — Lumen" },
-      { property: "og:description", content: "Conte um pouco sobre você e comece sua jornada na fé." },
+      {
+        property: "og:description",
+        content: "Conte um pouco sobre você e comece sua jornada na fé.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -35,7 +41,16 @@ const LEVELS = [
   { id: "bem", label: "Conheço bem", hint: "Participo da vida da Igreja" },
   { id: "muito", label: "Quero me aprofundar", hint: "Busco estudar mais a fundo" },
 ];
-const SACRAMENTS = ["Batismo", "Eucaristia", "Crisma", "Confissão", "Matrimônio", "Ordem", "Unção dos Enfermos", "Nenhum ainda"];
+const SACRAMENTS = [
+  "Batismo",
+  "Eucaristia",
+  "Crisma",
+  "Confissão",
+  "Matrimônio",
+  "Ordem",
+  "Unção dos Enfermos",
+  "Nenhum ainda",
+];
 const TOPICS = ["Bíblia", "Jesus", "Sacramentos", "Orações", "Igreja", "Começar do zero"];
 
 function Cadastro() {
@@ -92,11 +107,13 @@ function Cadastro() {
     <main className="mx-auto flex min-h-dvh max-w-md flex-col px-5 pb-6 pt-5">
       <div className="flex items-center gap-3">
         <button
+          type="button"
           onClick={back}
           aria-label="Voltar"
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-primary transition active:scale-90"
+          data-sound="select"
+          className="btn-3d-sm grid h-11 w-11 shrink-0 cursor-pointer place-items-center border-2 border-border bg-card text-primary [--btn-depth:var(--border)] hover:border-gold/80 hover:bg-accent/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <ArrowLeft className="h-6 w-6" />
+          <ArrowLeft className="h-5 w-5" aria-hidden="true" />
         </button>
         <div className="h-4 flex-1 overflow-hidden rounded-full bg-muted">
           <div
@@ -119,7 +136,11 @@ function Cadastro() {
         {step === 1 && (
           <Step title="Quanto você conhece da fé católica?">
             {LEVELS.map((l) => (
-              <Option key={l.id} selected={data.level === l.id} onClick={() => set({ level: l.id })}>
+              <Option
+                key={l.id}
+                selected={data.level === l.id}
+                onClick={() => set({ level: l.id })}
+              >
                 <span className="block">{l.label}</span>
                 <span className="block text-sm font-normal text-muted-foreground">{l.hint}</span>
               </Option>
@@ -138,8 +159,13 @@ function Cadastro() {
                     set({
                       sacraments:
                         s === "Nenhum ainda"
-                          ? data.sacraments.includes(s) ? [] : [s]
-                          : toggleItem(data.sacraments.filter((x) => x !== "Nenhum ainda"), s),
+                          ? data.sacraments.includes(s)
+                            ? []
+                            : [s]
+                          : toggleItem(
+                              data.sacraments.filter((x) => x !== "Nenhum ainda"),
+                              s,
+                            ),
                     })
                   }
                 >
@@ -150,7 +176,10 @@ function Cadastro() {
           </Step>
         )}
         {step === 3 && (
-          <Step title="O que você quer aprender primeiro?" subtitle="Todos os temas continuam abertos para você.">
+          <Step
+            title="O que você quer aprender primeiro?"
+            subtitle="Todos os temas continuam abertos para você."
+          >
             <div className="grid grid-cols-2 gap-3">
               {TOPICS.map((t) => (
                 <Option key={t} selected={data.topic === t} onClick={() => set({ topic: t })}>
@@ -186,7 +215,7 @@ function Cadastro() {
                   type="button"
                   onClick={() => setShowPw((v) => !v)}
                   aria-label={showPw ? "Esconder senha" : "Mostrar senha"}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  className="absolute right-2 top-1/2 grid h-10 w-10 -translate-y-1/2 cursor-pointer place-items-center rounded-xl text-muted-foreground transition hover:bg-accent/60 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {showPw ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -197,7 +226,9 @@ function Cadastro() {
                   isPasswordValid(password) ? "text-secondary" : "text-muted-foreground",
                 )}
               >
-                {isPasswordValid(password) ? "✓ Senha válida" : `Mínimo de ${MIN_PASSWORD} caracteres`}
+                {isPasswordValid(password)
+                  ? "✓ Senha válida"
+                  : `Mínimo de ${MIN_PASSWORD} caracteres`}
               </span>
             </label>
           </Step>
@@ -213,7 +244,12 @@ function Cadastro() {
           </LumenButton>
         )}
         {step < 4 && (
-          <button onClick={next} className="mt-3 w-full py-2 font-semibold text-muted-foreground">
+          <button
+            type="button"
+            onClick={next}
+            data-sound="select"
+            className="mt-3 min-h-11 w-full cursor-pointer rounded-2xl border-2 border-transparent py-2 font-display text-sm font-semibold text-muted-foreground transition hover:border-border hover:bg-card hover:text-primary active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             Pular
           </button>
         )}
@@ -222,7 +258,15 @@ function Cadastro() {
   );
 }
 
-function Step({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
+function Step({
+  title,
+  subtitle,
+  children,
+}: {
+  title: string;
+  subtitle?: string;
+  children: ReactNode;
+}) {
   return (
     <section className="flex flex-1 flex-col pt-6">
       <div className="mb-6 flex items-end gap-3">

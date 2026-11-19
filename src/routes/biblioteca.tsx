@@ -1,5 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Gift, Landmark, Lightbulb, Sparkles, Star } from "lucide-react";
+import {
+  BookOpen,
+  ChevronRight,
+  Gift,
+  Landmark,
+  Lightbulb,
+  Map,
+  Sparkles,
+  Star,
+} from "lucide-react";
 import { ThemeGlyph, ThemeIcon } from "@/components/ThemeSymbols";
 import { AppShell } from "@/components/AppShell";
 import { LessonIllustration } from "@/components/LessonIllustration";
@@ -32,14 +41,14 @@ function Biblioteca() {
       <p className="mt-1 text-muted-foreground">Os ensinamentos, com suas fontes.</p>
       <Link
         to="/natal"
-        className="mt-4 flex items-center gap-3 rounded-2xl border-2 border-gold bg-card p-4 transition active:scale-[0.98]"
+        className="btn-3d mt-4 flex items-center gap-3 rounded-2xl border-2 border-gold bg-card p-4 [--btn-depth:var(--gold-deep)] hover:border-primary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <ThemeIcon
           icon={Sparkles}
           christmas={Star}
           className="christmas-twinkle h-8 w-8 shrink-0 text-primary"
         />
-        <span>
+        <span className="min-w-0 flex-1">
           <span className="block font-display text-lg font-semibold text-primary">
             Especial de Natal
           </span>
@@ -47,13 +56,14 @@ function Biblioteca() {
             10 capítulos interativos sobre a Natividade de Jesus Cristo
           </span>
         </span>
+        <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
       </Link>
       <Link
         to="/biblia"
-        className="mt-3 flex items-center gap-3 rounded-2xl border-2 border-gold bg-card p-4 transition active:scale-[0.98]"
+        className="btn-3d mt-3 flex items-center gap-3 rounded-2xl border-2 border-gold bg-card p-4 [--btn-depth:var(--gold-deep)] hover:border-primary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <ThemeIcon icon={BookOpen} christmas={Star} className="h-8 w-8 shrink-0 text-primary" />
-        <span>
+        <span className="min-w-0 flex-1">
           <span className="block font-display text-lg font-semibold text-primary">
             Bíblia Sagrada
           </span>
@@ -61,13 +71,30 @@ function Biblioteca() {
             Os 73 livros completos, do Gênesis ao Apocalipse
           </span>
         </span>
+        <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
+      </Link>
+      <Link
+        to="/mapas"
+        data-sound="select"
+        className="btn-3d mt-3 flex items-center gap-3 rounded-2xl border-2 border-gold bg-card p-4 [--btn-depth:var(--gold-deep)] hover:border-primary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        <ThemeIcon icon={Map} christmas={Star} className="h-8 w-8 shrink-0 text-primary" />
+        <span className="min-w-0 flex-1">
+          <span className="block font-display text-lg font-semibold text-primary">
+            Mapas Bíblicos
+          </span>
+          <span className="text-sm text-muted-foreground">
+            Antigo e Novo Testamento em um só lugar, com zoom e navegação
+          </span>
+        </span>
+        <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
       </Link>
       <Link
         to="/museu"
-        className="mt-3 flex items-center gap-3 rounded-2xl border-2 border-gold bg-card p-4 transition active:scale-[0.98]"
+        className="btn-3d mt-3 flex items-center gap-3 rounded-2xl border-2 border-gold bg-card p-4 [--btn-depth:var(--gold-deep)] hover:border-primary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <ThemeIcon icon={Landmark} christmas={Gift} className="h-8 w-8 shrink-0 text-primary" />
-        <span>
+        <span className="min-w-0 flex-1">
           <span className="block font-display text-lg font-semibold text-primary">
             Museu Católico
           </span>
@@ -75,6 +102,7 @@ function Biblioteca() {
             Acervo histórico com ilustrações, explicações e fontes
           </span>
         </span>
+        <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
       </Link>
       <div className="mt-6 space-y-8">
         {UNITS.map((unit) => (
@@ -113,7 +141,7 @@ function Biblioteca() {
                     <Link
                       to="/licao/$id"
                       params={{ id: l.id }}
-                      className="inline-block text-xs font-bold text-primary underline"
+                      className="btn-3d-sm inline-flex min-h-10 items-center border-2 border-gold bg-accent px-3.5 py-1.5 text-xs font-bold text-primary [--btn-depth:var(--gold-deep)] hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       Praticar esta lição →
                     </Link>
